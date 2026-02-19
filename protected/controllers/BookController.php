@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class BookController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex(): void
     {
         $criteria = new CDbCriteria();
         $criteria->with = array('authors');

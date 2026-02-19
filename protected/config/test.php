@@ -3,15 +3,25 @@
 return CMap::mergeArray(
 	require(dirname(__FILE__).'/main.php'),
 	array(
+		'import'=>array(
+			'application.tests.components.*',
+			'application.tests.helpers.*',
+		),
 		'components'=>array(
 			'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
+				'basePath'=>dirname(__FILE__).'/../tests/fixtures',
 			),
-			/* uncomment the following to provide test database connection
-			'db'=>array(
-				'connectionString'=>'DSN for test database',
+			'request'=>array(
+				'class'=>'TestHttpRequest',
+				'hostInfo'=>'http://localhost',
+				'baseUrl'=>'/',
+				'scriptUrl'=>'/index-test.php',
 			),
-			*/
+			'assetManager'=>array(
+				'basePath'=>dirname(__FILE__).'/../../assets',
+				'baseUrl'=>'/assets',
+			),
 		),
 	)
 );

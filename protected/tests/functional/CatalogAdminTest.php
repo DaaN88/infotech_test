@@ -1,0 +1,39 @@
+<?php
+declare(strict_types=1);
+
+class CatalogAdminTest extends FunctionalTestCase
+{
+    protected function setUp()
+    {
+        parent::setUp();
+    }
+
+    /**
+     * Проверяет, что валидный логин переводит на каталог и отображает админские действия.
+     */
+    public function testLoginWithValidCredentialsRedirectsToCatalog()
+    {
+        $response = $this->post('auth/login', array(
+            'LoginForm' => array(
+                'username' => 'admin',
+                'password' => 'admin',
+                'rememberMe' => 0,
+            ),
+        ));
+
+        $this->assertFalse(Yii::app()->user->isGuest);
+        $this->assertEquals('admin', Yii::app()->user->name);
+        $this->assertNotNull($response['redirectUrl']);
+        $this->assertContains('book/index', $response['redirectUrl']);
+
+        $catalog = $this->get('book/index');
+        $this->assertContains('Редактировать', $catalog['content']);
+        $this->assertContains('Удалить', $catalog['content']);
+        $this->assertNotContains('Подписаться', $catalog['content']);
+    }
+
+    protected function tearDown()
+    {
+        parent::tearDown();
+    }
+}

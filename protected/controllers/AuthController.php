@@ -8,7 +8,7 @@ class AuthController extends Controller
 
     public function actionLogin(): void
     {
-        if (!Yii::app()->user->isGuest) {
+        if (! Yii::app()->user->isGuest) {
             $this->redirect(Yii::app()->homeUrl);
         }
 
@@ -16,11 +16,16 @@ class AuthController extends Controller
 
         if (isset($_POST['LoginForm'])) {
             $model->attributes = $_POST['LoginForm'];
+
             if ($model->validate() && $model->login()) {
                 // если returnUrl не задан, идём на каталог
-                if (Yii::app()->user->returnUrl === '/' || Yii::app()->user->returnUrl === Yii::app()->request->scriptUrl) {
+                if (
+                    Yii::app()->user->returnUrl === '/'
+                    || Yii::app()->user->returnUrl === Yii::app()->request->scriptUrl
+                ) {
                     Yii::app()->user->setReturnUrl(Yii::app()->homeUrl);
                 }
+
                 $this->redirect(Yii::app()->homeUrl);
             }
         }
