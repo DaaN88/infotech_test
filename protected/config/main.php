@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -7,7 +9,9 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'Каталог книг',
+	'defaultController'=>'auth',
+	'homeUrl'=>array('/book/index'),
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -36,6 +40,13 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			'loginUrl'=>array('/auth/login'),
+		),
+
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+			'defaultRoles'=>array('guest'),
 		),
 
 		// uncomment the following to enable URLs in path-format
