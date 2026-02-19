@@ -14,21 +14,26 @@
 - `index.php`, `protected/`, `themes/`, `css/` — сгенерированное демо-приложение.
 
 ## Быстрый старт
-1. Установите зависимости (внутри контейнера, чтобы совпала версия PHP):
+1. Сбейлдите образы:
    ```bash
-   docker compose run --rm app composer install
+   docker compose build
    ```
-   или, если Composer есть локально: `composer install`
-2. (Опционально) Импортируйте свой SQL-дамп:
+2. Поднимите контейнеры:
    ```bash
-   docker compose up -d db
+   docker compose up -d -p infotech-app
+   ```
+3. Установите зависимости внутри контейнера приложения (ядро Yii попадёт в `vendor/` на хосте, т.к. код смонтирован):
+   ```bash
+   docker compose exec -it app sh
+   composer install
+   exit
+   ```
+   или короче: `docker compose exec app composer install`
+4. (Опционально) Импортируйте свой SQL-дамп (после старта db):
+   ```bash
    docker exec -i infotek_db mysql -u infotek -pinfotek infotek < path/to/dump.sql
    ```
-3. Соберите и запустите все сервисы:
-   ```bash
-   docker compose up --build
-   ```
-4. Откройте http://localhost:8080 — загружается базовый Yii1 сайт.
+5. Откройте http://localhost:8080 — загружается базовый Yii1 сайт.
    - PHP-FPM внутри слушает 9000.
    - MariaDB снаружи доступна на 3306 (`root/root`, пользователь `infotek/infotek`).
 
