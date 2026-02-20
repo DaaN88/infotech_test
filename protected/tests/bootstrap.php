@@ -3,6 +3,9 @@
 $_SERVER['SCRIPT_NAME'] = $_SERVER['SCRIPT_NAME'] ?? '/index-test.php';
 $_SERVER['REQUEST_URI'] = $_SERVER['REQUEST_URI'] ?? '/';
 
+// Маркер для тестов (используется, например, чтобы не делать Yii::app()->end() в JSON-ответах).
+defined('PHPUNIT_RUNNING') or define('PHPUNIT_RUNNING', true);
+
 // change the following paths if necessary
 $yiit=dirname(__FILE__).'/../../vendor/yiisoft/yii/framework/yiit.php';
 $config=dirname(__FILE__).'/../config/test.php';

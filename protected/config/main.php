@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once dirname(__FILE__) . '/../components/Env.php';
+
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
@@ -72,18 +74,24 @@ return array(
 			'errorAction'=>YII_DEBUG ? null : 'site/error',
 		),
 
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                ),
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'info, error, warning',
+                    'categories'=>'sms,queue',
+                    'logFile'=>'app-info.log',
+                ),
+                // uncomment the following to show log messages on web pages
+                /*
+                array(
+                    'class'=>'CWebLogRoute',
+                ),
 				*/
 			),
 		),
@@ -96,7 +104,7 @@ return array(
         // Уведомления/очередь
         'notificationFactory'=>array(
             'class'=>'NotificationFactory',
-            'smsApiKey'=>getenv('SMS_API_KEY') ?: 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
+            'smsApiKey'=>Env::get('SMS_API_KEY', 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ'),
         ),
         'notifier'=>array(
             'class'=>'Notifier',
@@ -106,12 +114,15 @@ return array(
         ),
         'queue'=>array(
             'class'=>'QueueComponent',
-            'driver'=>getenv('QUEUE_DRIVER') ?: 'redis',
-            'redisHost'=>getenv('REDIS_HOST') ?: 'redis',
-            'redisPort'=> (int)(getenv('REDIS_PORT') ?: 6379),
+            'driver'=>Env::get('QUEUE_DRIVER', 'redis'),
+            'redisHost'=>Env::get('REDIS_HOST', 'redis'),
+            'redisPort'=> (int)(Env::get('REDIS_PORT', 6379)),
+        ),
+        'bookService'=>array(
+            'class'=>'BookService',
         ),
 
-	),
+    ),
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

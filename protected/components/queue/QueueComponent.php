@@ -14,6 +14,7 @@ use Yiisoft\Queue\Middleware\Consume\MiddlewareFactoryConsume;
 use Yiisoft\Queue\Middleware\FailureHandling\FailureMiddlewareDispatcher;
 use Yiisoft\Queue\Middleware\FailureHandling\MiddlewareFactoryFailure;
 use Yiisoft\Queue\Middleware\Push\MiddlewareFactoryPush;
+use Yiisoft\Queue\Middleware\Push\MiddlewarePushInterface;
 use Yiisoft\Queue\Middleware\Push\PushMiddlewareDispatcher;
 use Yiisoft\Queue\Queue;
 use Yiisoft\Queue\QueueInterface;
@@ -24,7 +25,7 @@ use Yiisoft\Queue\Worker\Worker;
 class QueueComponent extends CApplicationComponent
 {
     /**
-     * Драйвер очереди: redis|sync (sync удобно для тестов).
+     * Драйвер очереди: redis|sync
      */
     public string $driver = 'redis';
 
@@ -36,7 +37,7 @@ class QueueComponent extends CApplicationComponent
 
     private QueueInterface $queue;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -80,22 +81,36 @@ class QueueComponent extends CApplicationComponent
         );
     }
 
-    private function createAdapter(Worker $worker, SimpleLoop $loop)
+    private function createAdapter(Worker $worker, SimpleLoop $loop): SynchronousAdapter|RedisAdapter
     {
         if ($this->driver === 'sync') {
             return new SynchronousAdapter($worker, new class implements QueueInterface {
                 public function getChannel(): string { return 'sync'; }
-                public function push(MessageInterface $message, \Yiisoft\Queue\Middleware\Push\MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions): MessageInterface { return $message; }
+                public function push(
+                    MessageInterface $message,
+                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
+                ): MessageInterface { return $message; }
+
                 public function run(int $max = 0): int { return 0; }
+
                 public function listen(): void {}
-                public function status(string|int $id): \Yiisoft\Queue\JobStatus { return \Yiisoft\Queue\JobStatus::DONE; }
+
+                public function status(string|int $id): \Yiisoft\Queue\JobStatus {
+                    return \Yiisoft\Queue\JobStatus::DONE;
+                }
+
                 public function withAdapter(\Yiisoft\Queue\Adapter\AdapterInterface $adapter): static { return $this; }
-                public function withMiddlewares(\Yiisoft\Queue\Middleware\Push\MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions): \Yiisoft\Queue\QueueInterface { return $this; }
-                public function withMiddlewaresAdded(\Yiisoft\Queue\Middleware\Push\MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions): \Yiisoft\Queue\QueueInterface { return $this; }
+                public function withMiddlewares(
+                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
+                ): \Yiisoft\Queue\QueueInterface { return $this; }
+                public function withMiddlewaresAdded(
+                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
+                ): \Yiisoft\Queue\QueueInterface { return $this; }
             }, 'sync');
         }
 
         $redis = new Redis();
+
         try {
             $redis->connect($this->redisHost, $this->redisPort);
         } catch (\RedisException $e) {

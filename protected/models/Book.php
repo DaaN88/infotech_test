@@ -31,9 +31,25 @@ class Book extends CActiveRecord
             ['title, year, isbn', 'required'],
             ['title', 'length', 'max' => 255],
             ['isbn', 'length', 'max' => 32],
+            ['isbn', 'unique'],
             ['cover_path', 'length', 'max' => 255],
             ['year', 'numerical', 'integerOnly' => true],
+            ['description', 'safe'],
         ];
+    }
+
+    /**
+     * Автоматически ставим created_at / updated_at.
+     */
+    protected function beforeSave()
+    {
+        $now = date('Y-m-d H:i:s');
+        if ($this->getIsNewRecord() && empty($this->created_at)) {
+            $this->created_at = $now;
+        }
+        $this->updated_at = $now;
+
+        return parent::beforeSave();
     }
 
     /**
@@ -48,16 +64,27 @@ class Book extends CActiveRecord
         return null;
     }
 
-    protected function afterSave()
+    /**
+     * Сохраняет связи книга-авторы (M2M) в таблице book_author.
+     *
+     * @param int[] $authorIds
+     */
+    public function syncAuthors(array $authorIds): void
     {
-        $isInsert = $this->isNewRecord;
-        parent::afterSave();
+        $authorIds = array_values(array_unique(array_filter(array_map('intval', $authorIds))));
 
-        // Уведомляем подписчиков только при создании новой книги.
-        if ($isInsert) {
-            /** @var NotificationService $notificationService */
-            $notificationService = Yii::app()->notificationService;
-            $notificationService->enqueueNewBook($this);
+        // Удаляем текущие связи и пишем новые; оборачивайте транзакцией снаружи.
+        Yii::app()->db->createCommand()
+            ->delete('book_author', 'book_id = :id', [':id' => $this->id]);
+
+        foreach ($authorIds as $aid) {
+            Yii::app()->db->createCommand()->insert('book_author', [
+                'book_id' => $this->id,
+                'author_id' => $aid,
+            ]);
         }
+
+        // Обновим кеш relations.
+        $this->authors = $authorIds ? Author::model()->findAllByPk($authorIds) : [];
     }
 }

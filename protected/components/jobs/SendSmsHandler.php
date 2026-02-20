@@ -23,5 +23,9 @@ class SendSmsHandler implements MessageHandlerInterface
         /** @var Notifier $notifier */
         $notifier = Yii::app()->notifier;
         $notifier->sendSms($phone, $text);
+
+        // В долгоживущем воркере принудительно сбрасываем лог,
+        // чтобы записи sms попадали в файл сразу.
+        Yii::getLogger()->flush(true);
     }
 }

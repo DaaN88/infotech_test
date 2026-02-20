@@ -36,7 +36,8 @@ RUN set -eux \
         opcache \
         exif \
         bcmath \
-    && apk add --no-cache php83-pecl-redis \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && apk del --no-cache .build-deps \
     && rm -rf /tmp/* /var/cache/apk/*
 

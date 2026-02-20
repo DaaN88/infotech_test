@@ -33,11 +33,15 @@
    ```bash
    docker compose exec app php protected/yiic migrate --interactive=0
    ```
-5. (Опционально) Импортируйте свой SQL-дамп (после старта db):
+5. Очередь уведомлений:
+   - Драйвер задаётся в `.env` переменной `QUEUE_DRIVER` (по умолчанию `redis`; для мгновенного выполнения можно поставить `sync`).
+   - Выполнить накопленные задачи и завершить: `docker compose exec app php protected/yiic queue run`
+   - Слушать очередь постоянно: `docker compose exec app php protected/yiic queue listen`
+6. (Опционально) Импортируйте свой SQL-дамп (после старта db):
    ```bash
    docker exec -i infotek_db mysql -u infotek -pinfotek infotek < path/to/dump.sql
    ```
-6. Откройте http://localhost:8080 — загружается базовый Yii1 сайт.
+7. Откройте http://localhost:8080 — загружается базовый Yii1 сайт.
    - PHP-FPM внутри слушает 9000.
    - MariaDB снаружи доступна на 3306 (`root/root`, пользователь `infotek/infotek`).
 

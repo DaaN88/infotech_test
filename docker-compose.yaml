@@ -9,6 +9,8 @@ services:
     volumes:
       - ./:/var/www/html
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/zz-custom.ini:ro
+    env_file:
+      - .env
     environment:
       PHP_IDE_CONFIG: "serverName=infotek_app"
     depends_on:

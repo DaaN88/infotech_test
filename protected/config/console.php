@@ -2,6 +2,8 @@
 
 // This is the configuration for yiic console application.
 // Any writable CConsoleApplication properties can be configured here.
+require_once dirname(__FILE__) . '/../components/Env.php';
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Console Application',
@@ -30,7 +32,7 @@ return array(
 
         'notificationFactory'=>array(
             'class'=>'NotificationFactory',
-            'smsApiKey'=>getenv('SMS_API_KEY') ?: 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
+            'smsApiKey'=>Env::get('SMS_API_KEY', 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ'),
         ),
         'notifier'=>array(
             'class'=>'Notifier',
@@ -40,20 +42,26 @@ return array(
         ),
         'queue'=>array(
             'class'=>'QueueComponent',
-            'driver'=>getenv('QUEUE_DRIVER') ?: 'redis',
-            'redisHost'=>getenv('REDIS_HOST') ?: 'redis',
-            'redisPort'=> (int)(getenv('REDIS_PORT') ?: 6379),
+            'driver'=>Env::get('QUEUE_DRIVER', 'redis'),
+            'redisHost'=>Env::get('REDIS_HOST', 'redis'),
+            'redisPort'=> (int)(Env::get('REDIS_PORT', 6379)),
         ),
 
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-			),
-		),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                ),
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'info, error, warning',
+                    'categories'=>'sms,queue',
+                    'logFile'=>'app-info.log',
+                ),
+            ),
+        ),
 
-	),
+    ),
 );

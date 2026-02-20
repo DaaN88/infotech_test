@@ -14,6 +14,7 @@ class NotificationService extends CApplicationComponent
      */
     public function enqueueNewBook(Book $book): void
     {
+        $pushed = 0;
         foreach ($this->getAuthors($book) as $author) {
             $subs = Subscription::model()->findAllByAttributes(['author_id' => $author->id]);
             foreach ($subs as $sub) {
@@ -24,8 +25,19 @@ class NotificationService extends CApplicationComponent
                         'text' => $text,
                     ])
                 );
+                $pushed++;
             }
         }
+
+        $category = 'queue';
+        if ($pushed === 0) {
+            Yii::log(sprintf('enqueueNewBook: подписчиков не найдено для книги #%d', $book->id), CLogger::LEVEL_INFO, $category);
+        } else {
+            Yii::log(sprintf('enqueueNewBook: поставлено %d уведомлений для книги #%d', $pushed, $book->id), CLogger::LEVEL_INFO, $category);
+        }
+
+        // принудительно сбрасываем лог, чтобы записи сразу попадали в файл в CLI/долгоживущих процессах
+        Yii::getLogger()->flush(true);
     }
 
     /**

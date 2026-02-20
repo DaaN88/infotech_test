@@ -20,4 +20,30 @@ class Controller extends CController
 	 * for more details on how to specify this property.
 	 */
 	public $breadcrumbs=array();
+
+    /**
+     * Ограничиваем действие только AJAX-запросами.
+     */
+    protected function requireAjax(): void
+    {
+        if (! Yii::app()->request->isAjaxRequest) {
+            throw new CHttpException(400, 'Только AJAX запросы поддерживаются.');
+        }
+    }
+
+    /**
+     * Быстрый ответ JSON и завершение запроса.
+     */
+    protected function renderJson(array $payload, int $statusCode = 200): void
+    {
+        if (!headers_sent()) {
+            http_response_code($statusCode);
+            header('Content-Type: application/json; charset=utf-8');
+        }
+        echo CJSON::encode($payload);
+        if (defined('PHPUNIT_RUNNING') && PHPUNIT_RUNNING) {
+            return;
+        }
+        Yii::app()->end();
+    }
 }
