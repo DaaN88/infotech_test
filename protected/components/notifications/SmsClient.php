@@ -34,10 +34,30 @@ class SmsClient
             ],
         ]);
 
-        $result = @file_get_contents($url, false, $ctx);
+        $previousHandler = set_error_handler(function ($severity, $message, $file = '', $line = 0) {
+            throw new \ErrorException($message, 0, $severity, $file, $line);
+        });
 
-        if ($result === false) {
-            throw new RuntimeException('Не удалось отправить SMS');
+        try {
+            $result = file_get_contents($url, false, $ctx);
+
+            if ($result === false) {
+                throw new RuntimeException('Не удалось отправить SMS');
+            }
+        } catch (Throwable $e) {
+            Yii::log(
+                sprintf('Ошибка отправки SMS: %s (phone=%s)', $e->getMessage(), $phone),
+                CLogger::LEVEL_ERROR,
+                'sms'
+            );
+            
+            throw new RuntimeException('Не удалось отправить SMS', 0, $e);
+        } finally {
+            if ($previousHandler !== null) {
+                set_error_handler($previousHandler);
+            } else {
+                restore_error_handler();
+            }
         }
     }
 }
