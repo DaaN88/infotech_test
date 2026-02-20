@@ -9,6 +9,14 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+    'import'=>array(
+        'application.models.*',
+        'application.components.*',
+        'application.components.notifications.*',
+        'application.components.queue.*',
+        'application.components.jobs.*',
+    ),
+
 	// application components
 	'components'=>array(
 
@@ -19,6 +27,23 @@ return array(
 		'reportService'=>array(
 			'class'=>'TopAuthorsReportService',
 		),
+
+        'notificationFactory'=>array(
+            'class'=>'NotificationFactory',
+            'smsApiKey'=>getenv('SMS_API_KEY') ?: 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
+        ),
+        'notifier'=>array(
+            'class'=>'Notifier',
+        ),
+        'notificationService'=>array(
+            'class'=>'NotificationService',
+        ),
+        'queue'=>array(
+            'class'=>'QueueComponent',
+            'driver'=>getenv('QUEUE_DRIVER') ?: 'redis',
+            'redisHost'=>getenv('REDIS_HOST') ?: 'redis',
+            'redisPort'=> (int)(getenv('REDIS_PORT') ?: 6379),
+        ),
 
 		'log'=>array(
 			'class'=>'CLogRouter',

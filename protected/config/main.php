@@ -17,10 +17,13 @@ return array(
 	'preload'=>array('log'),
 
 	// autoloading model and component classes
-	'import'=>array(
-		'application.models.*',
-		'application.components.*',
-	),
+    'import'=>array(
+        'application.models.*',
+        'application.components.*',
+        'application.components.notifications.*',
+        'application.components.queue.*',
+        'application.components.jobs.*',
+    ),
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
@@ -86,9 +89,27 @@ return array(
 		),
 
 		// Отчёты/статистика
-		'reportService'=>array(
-			'class'=>'TopAuthorsReportService',
-		),
+        'reportService'=>array(
+            'class'=>'TopAuthorsReportService',
+        ),
+
+        // Уведомления/очередь
+        'notificationFactory'=>array(
+            'class'=>'NotificationFactory',
+            'smsApiKey'=>getenv('SMS_API_KEY') ?: 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ',
+        ),
+        'notifier'=>array(
+            'class'=>'Notifier',
+        ),
+        'notificationService'=>array(
+            'class'=>'NotificationService',
+        ),
+        'queue'=>array(
+            'class'=>'QueueComponent',
+            'driver'=>getenv('QUEUE_DRIVER') ?: 'redis',
+            'redisHost'=>getenv('REDIS_HOST') ?: 'redis',
+            'redisPort'=> (int)(getenv('REDIS_PORT') ?: 6379),
+        ),
 
 	),
 

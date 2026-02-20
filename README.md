@@ -47,6 +47,8 @@
 - Логи конкретного: `docker compose logs -f app`
 - Перезапуск только nginx: `docker restart infotek_nginx`
 - Запуск в фоне: `docker compose up -d`
+- Запуск только воркера очереди (внутри контейнера): `docker compose exec app php protected/yiic queue listen`
+- Если видите ошибку `getaddrinfo for redis failed`, сначала поднимите Redis: `docker compose up -d redis` или установите `REDIS_HOST=127.0.0.1` при локальном запуске без Docker.
 
 ## Настройки и монтирования
 - Код монтируется в контейнер `app` по пути `/var/www/html`.
@@ -60,3 +62,17 @@
 - `cgi.fix_pathinfo = 0` и `session.save_path=/tmp/sessions` соответствуют Dockerfile.
 - Если нужен другой домен/порт — поменяйте `server_name` и маппинг порта в `docker-compose.yaml`.
 - При желании пересоздать чистое приложение используйте внутри контейнера `php vendor/yiisoft/yii/framework/yiic.php webapp /var/www/html`.
+
+## Очередь и уведомления
+- Redis поднимается как сервис `redis` (порт по умолчанию 6379, см. `.env`).
+- API-ключ для SMS берётся из переменной `SMS_API_KEY` (есть в `.env` / `.env.example`, по умолчанию тестовый ключ smspilot-эмулятора).
+- Воркеры:
+  - Выполнить накопленные задачи и завершить: `docker compose exec app php protected/yiic queue run`
+  - Слушать очередь постоянно: `docker compose exec app php protected/yiic queue listen` (рекомендуется запускать под supervisor/systemd).
+
+## Тесты
+Из контейнера приложения:
+```bash
+docker compose exec app php vendor/bin/phpunit --configuration protected/tests/phpunit.xml --testsuite unit
+docker compose exec app php vendor/bin/phpunit --configuration protected/tests/phpunit.xml --testsuite functional
+```

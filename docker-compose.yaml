@@ -14,6 +14,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_started
     expose:
       - "9000"
     networks:
@@ -58,9 +60,22 @@ services:
     networks:
       - appnet
 
+  redis:
+    image: redis:7-alpine
+    container_name: infotek_redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - appnet
+
 networks:
   appnet:
     driver: bridge
 
 volumes:
   db_data:
+  redis_data:

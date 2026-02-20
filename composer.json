@@ -4,6 +4,8 @@
   "type": "project",
   "require": {
     "php": ">=8.3",
+    "yiisoft/queue": "dev-master",
+    "yiisoft/queue-redis": "dev-master",
     "yiisoft/yii": "1.1.*"
   },
   "require-dev": {

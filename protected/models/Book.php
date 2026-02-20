@@ -47,4 +47,17 @@ class Book extends CActiveRecord
 
         return null;
     }
+
+    protected function afterSave()
+    {
+        $isInsert = $this->isNewRecord;
+        parent::afterSave();
+
+        // Уведомляем подписчиков только при создании новой книги.
+        if ($isInsert) {
+            /** @var NotificationService $notificationService */
+            $notificationService = Yii::app()->notificationService;
+            $notificationService->enqueueNewBook($this);
+        }
+    }
 }

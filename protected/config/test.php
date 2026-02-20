@@ -22,6 +22,9 @@ return CMap::mergeArray(
 				'basePath'=>dirname(__FILE__).'/../../assets',
 				'baseUrl'=>'/assets',
 			),
+            'queue'=>array(
+                'driver'=>'sync',
+            ),
 		),
 	)
 );

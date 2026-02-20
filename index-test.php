@@ -8,6 +8,9 @@
 $yii=dirname(__FILE__).'/framework/yii.php';
 $config=dirname(__FILE__).'/protected/config/test.php';
 
+// Composer autoload for external libs in tests
+require_once __DIR__ . '/vendor/autoload.php';
+
 // remove the following line when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 

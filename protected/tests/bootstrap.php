@@ -7,6 +7,9 @@ $_SERVER['REQUEST_URI'] = $_SERVER['REQUEST_URI'] ?? '/';
 $yiit=dirname(__FILE__).'/../../vendor/yiisoft/yii/framework/yiit.php';
 $config=dirname(__FILE__).'/../config/test.php';
 
+// Composer autoload (PSR libs: queue, redis, psr/log)
+require_once dirname(__FILE__) . '/../../vendor/autoload.php';
+
 require_once($yiit);
 
 Yii::setPathOfAlias('application', dirname(__FILE__) . '/..');

@@ -53,6 +53,7 @@ class m260219_120100_create_library_tables extends CDbMigration
             'author_id'  => 'int(11) NOT NULL',
             'user_id'    => 'int(11)',
             'phone'      => 'varchar(32) NOT NULL',
+            'name'       => "varchar(255) NOT NULL",
             'created_at' => 'datetime NOT NULL',
         ), $options);
 

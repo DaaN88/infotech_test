@@ -10,6 +10,7 @@ abstract class FunctionalTestCase extends CDbTestCase
         'books' => 'Book',
         'book_author' => ':book_author',
         'book_photos' => ':book_photos',
+        'subscriptions' => 'Subscription',
     );
 
     protected function setUp()
