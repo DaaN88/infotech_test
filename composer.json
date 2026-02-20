@@ -3,7 +3,7 @@
   "description": "Yii 1.1 application in Docker (PHP 8.3, nginx, MariaDB)",
   "type": "project",
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.3",
     "yiisoft/yii": "1.1.*"
   },
   "require-dev": {

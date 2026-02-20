@@ -1,0 +1,28 @@
+<?php
+declare(strict_types=1);
+
+return array(
+    array('id' => 1, 'book_id' => 1, 'file_name' => 'cover_01.png', 'display_name' => 'Обложка «Путь разработчика»', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 2, 'book_id' => 2, 'file_name' => 'cover_02.png', 'display_name' => 'Обложка «Архитектура систем»', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 3, 'book_id' => 3, 'file_name' => 'cover_03.png', 'display_name' => 'Практика DevOps — обложка', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 4, 'book_id' => 3, 'file_name' => 'cover_03_alt.png', 'display_name' => 'Практика DevOps — диаграмма', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 5, 'book_id' => 4, 'file_name' => 'cover_04.png', 'display_name' => 'Микросервисы — обложка', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 6, 'book_id' => 4, 'file_name' => 'cover_04_alt.png', 'display_name' => 'Микросервисы — схема', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 7, 'book_id' => 5, 'file_name' => 'cover_05.png', 'display_name' => 'Data Engineering', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 8, 'book_id' => 6, 'file_name' => 'cover_06.png', 'display_name' => 'Искусственный интеллект', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 9, 'book_id' => 7, 'file_name' => 'cover_07.png', 'display_name' => 'Cloud Native Patterns', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 10, 'book_id' => 7, 'file_name' => 'cover_07_alt.png', 'display_name' => 'Cloud Native — k8s', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 11, 'book_id' => 8, 'file_name' => 'cover_08.png', 'display_name' => 'Безопасность приложений', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 12, 'book_id' => 9, 'file_name' => 'cover_09.png', 'display_name' => 'Современный фронтенд', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 13, 'book_id' => 10, 'file_name' => 'cover_10.png', 'display_name' => 'Тестирование и качество', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 14, 'book_id' => 11, 'file_name' => 'cover_11.png', 'display_name' => 'Менеджмент продукта', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 15, 'book_id' => 12, 'file_name' => 'cover_12.png', 'display_name' => 'Machine Learning 101', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 16, 'book_id' => 13, 'file_name' => 'cover_13.png', 'display_name' => 'Глубокое обучение', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 17, 'book_id' => 14, 'file_name' => 'cover_14.png', 'display_name' => 'Rust для начинающих', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 18, 'book_id' => 15, 'file_name' => 'cover_15.png', 'display_name' => 'Go: высоконагруженные сервисы', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 19, 'book_id' => 16, 'file_name' => 'cover_16.png', 'display_name' => 'PostgreSQL в продакшене', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 20, 'book_id' => 17, 'file_name' => 'cover_17.png', 'display_name' => 'Секреты CSS', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 21, 'book_id' => 18, 'file_name' => 'cover_18.png', 'display_name' => 'Эффективный руководитель', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 22, 'book_id' => 19, 'file_name' => 'cover_19.png', 'display_name' => 'Продуктовая аналитика', 'created_at' => '2024-02-15 10:00:00'),
+    array('id' => 23, 'book_id' => 20, 'file_name' => 'cover_20.png', 'display_name' => 'Agile практикум', 'created_at' => '2024-02-15 10:00:00'),
+);

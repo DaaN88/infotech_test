@@ -19,9 +19,7 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-slate-100">
-<div class="pointer-events-none fixed inset-0 bg-[radial-gradient(70%_50%_at_50%_0%,rgba(56,189,248,0.18),transparent_60%),radial-gradient(60%_60%_at_10%_10%,rgba(99,102,241,0.12),transparent_55%),radial-gradient(80%_70%_at_90%_20%,rgba(20,184,166,0.10),transparent_55%)]"></div>
-
+<body class="min-h-screen bg-slate-800 text-slate-100">
 <div class="relative">
 	<header class="border-b border-white/10 backdrop-blur">
 		<div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
@@ -54,7 +52,7 @@
 			</nav>
 		<?php endif?>
 
-		<div class="rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur p-4 sm:p-6">
+		<div class="rounded-xl border border-white/5 bg-slate-900/80 p-4 sm:p-6">
 			<?php echo $content; ?>
 		</div>
 

@@ -15,6 +15,11 @@ return array(
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),
 
+		// общий сервис отчетов (можно дернуть из консольных команд)
+		'reportService'=>array(
+			'class'=>'TopAuthorsReportService',
+		),
+
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(

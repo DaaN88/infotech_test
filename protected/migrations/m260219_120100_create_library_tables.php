@@ -57,15 +57,48 @@ class m260219_120100_create_library_tables extends CDbMigration
         ), $options);
 
         // Foreign keys
-        $this->addForeignKey('fk_book_author_book', 'book_author', 'book_id', 'books', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_book_author_author', 'book_author', 'author_id', 'authors', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey(
+            'fk_book_author_book',
+            'book_author',
+            'book_id',
+            'books',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_book_author_author',
+            'book_author',
+            'author_id',
+            'authors',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
 
-        $this->addForeignKey('fk_subscriptions_author', 'subscriptions', 'author_id', 'authors', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk_subscriptions_user', 'subscriptions', 'user_id', 'users', 'id', 'SET NULL', 'CASCADE');
+        $this->addForeignKey(
+            'fk_subscriptions_author',
+            'subscriptions',
+            'author_id',
+            'authors',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'fk_subscriptions_user',
+            'subscriptions',
+            'user_id',
+            'users',
+            'id',
+            'SET NULL',
+            'CASCADE'
+        );
 
         // Seed admin user
         $hash = CPasswordHelper::hashPassword('admin');
         $now  = new CDbExpression('NOW()');
+
         $this->insert('users', array(
             'username'      => 'admin',
             'password_hash' => $hash,

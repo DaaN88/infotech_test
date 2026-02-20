@@ -24,7 +24,7 @@ services:
     container_name: infotek_nginx
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "${APP_HTTP_PORT:-8080}:80"
     volumes:
       - ./:/var/www/html
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
@@ -39,13 +39,13 @@ services:
     container_name: infotek_db
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: infotek
-      MARIADB_USER: infotek
-      MARIADB_PASSWORD: infotek
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-infotek}
+      MARIADB_USER: ${DB_USER:-infotek}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-infotek}
       TZ: UTC
     ports:
-      - "3306:3306"
+      - "${DB_PORT:-3306}:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf:ro

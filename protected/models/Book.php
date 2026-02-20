@@ -19,19 +19,32 @@ class Book extends CActiveRecord
 
     public function relations()
     {
-        return array(
-            'authors' => array(self::MANY_MANY, 'Author', 'book_author(book_id, author_id)'),
-        );
+        return [
+            'authors' => [self::MANY_MANY, 'Author', 'book_author(book_id, author_id)'],
+            'photos' => [self::HAS_MANY, 'BookPhoto', 'book_id', 'order' => 'photos.id ASC'],
+        ];
     }
 
     public function rules()
     {
-        return array(
-            array('title, year, isbn', 'required'),
-            array('title', 'length', 'max' => 255),
-            array('isbn', 'length', 'max' => 32),
-            array('cover_path', 'length', 'max' => 255),
-            array('year', 'numerical', 'integerOnly' => true),
-        );
+        return [
+            ['title, year, isbn', 'required'],
+            ['title', 'length', 'max' => 255],
+            ['isbn', 'length', 'max' => 32],
+            ['cover_path', 'length', 'max' => 255],
+            ['year', 'numerical', 'integerOnly' => true],
+        ];
+    }
+
+    /**
+     * Returns first photo for the book or null if missing.
+     */
+    public function getPrimaryPhoto(): ?BookPhoto
+    {
+        if ($this->photos && isset($this->photos[0])) {
+            return $this->photos[0];
+        }
+
+        return null;
     }
 }

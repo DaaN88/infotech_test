@@ -8,33 +8,47 @@ $this->pageTitle = 'Каталог книг';
 $this->breadcrumbs = array('Каталог');
 ?>
 
-<section class="rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
+<section class="rounded-xl border border-white/5 bg-slate-900/80">
   <div class="w-full">
     <table class="w-full table-auto text-left text-sm">
-      <thead class="bg-slate-950/40 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b border-white/10">
+      <thead class="bg-slate-900 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b border-white/10">
         <tr>
           <th class="px-5 py-3">Название</th>
-          <th class="px-5 py-3">Авторы</th>
+          <th class="px-5 py-3 w-48">Авторы</th>
           <th class="px-5 py-3 w-16 whitespace-nowrap">Год</th>
           <th class="px-5 py-3 w-32">ISBN</th>
           <th class="px-5 py-3">Описание</th>
           <th class="px-5 py-3 w-32 whitespace-nowrap">Обновлено</th>
-          <th class="px-5 py-3 w-40 text-right whitespace-nowrap">Действия</th>
+          <th class="px-5 py-3 w-36 text-right whitespace-nowrap">Действия</th>
         </tr>
       </thead>
 
       <tbody class="divide-y divide-white/10">
         <?php foreach ($dataProvider->getData() as $book): ?>
-          <tr class="bg-white/[0.02] hover:bg-white/[0.05] transition-colors">
+          <tr class="bg-white/[0.02] hover:bg-white/[0.06] transition-colors">
             <td class="px-5 py-4 align-top">
-              <span class="font-semibold text-sky-200 hover:text-sky-100">
-                <?php echo CHtml::encode($book->title); ?>
-              </span>
+              <?php $primaryPhoto = $book->primaryPhoto; ?>
+              <?php if ($primaryPhoto): ?>
+                <?php echo CHtml::link(CHtml::encode($book->title),
+                  Yii::app()->request->baseUrl . '/images/' . $primaryPhoto->file_name,
+                  array(
+                      'class'=>'font-semibold text-sky-200 hover:text-sky-100 underline decoration-sky-400/70',
+                      'target'=>'_blank',
+                      'rel'=>'noopener',
+                      'title'=>'Откроется фото в новой вкладке',
+                  )
+                ); ?>
+              <?php else: ?>
+                <span class="font-semibold text-sky-200">
+                  <?php echo CHtml::encode($book->title); ?>
+                </span>
+              <?php endif; ?>
             </td>
 
             <td class="px-5 py-4 align-top">
-              <div class="truncate text-slate-200">
-                <?php echo CHtml::encode(implode(', ', CHtml::listData($book->authors, 'id', 'name'))); ?>
+              <?php $authorsList = implode(', ', CHtml::listData($book->authors, 'id', 'name')); ?>
+              <div class="truncate text-slate-200 max-w-[14rem]" title="<?php echo CHtml::encode($authorsList); ?>">
+                <?php echo CHtml::encode($authorsList); ?>
               </div>
             </td>
 
@@ -78,10 +92,21 @@ $this->breadcrumbs = array('Каталог');
     </table>
   </div>
 
-  <div class="px-4 pb-4">
-    <?php $this->widget('CLinkPager', array(
-        'pages' => $dataProvider->getPagination(),
-        'htmlOptions' => array('class' => 'pager'),
-    )); ?>
+  <div class="px-4 pb-4 flex items-center justify-between gap-4">
+    <div>
+      <?php $this->widget('CLinkPager', array(
+          'pages' => $dataProvider->getPagination(),
+          'htmlOptions' => array('class' => 'pager'),
+          'firstPageLabel' => '« Первая',
+          'lastPageLabel' => 'Последняя »',
+          'nextPageLabel' => 'Следующая ›',
+          'prevPageLabel' => '‹ Предыдущая',
+      )); ?>
+    </div>
+    <div class="ml-auto">
+      <?php echo CHtml::link('ТОП-10', array('/report/top'), array(
+          'class'=>'inline-flex items-center justify-center rounded-lg bg-emerald-500/15 px-4 py-2 text-sm font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-400/30 hover:bg-emerald-500/25 hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 whitespace-nowrap shrink-0'
+      )); ?>
+    </div>
   </div>
 </section>

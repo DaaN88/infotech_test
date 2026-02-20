@@ -85,6 +85,11 @@ return array(
 			),
 		),
 
+		// Отчёты/статистика
+		'reportService'=>array(
+			'class'=>'TopAuthorsReportService',
+		),
+
 	),
 
 	// application-level parameters that can be accessed
