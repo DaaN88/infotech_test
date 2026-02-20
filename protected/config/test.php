@@ -1,0 +1,30 @@
+<?php
+
+return CMap::mergeArray(
+	require(dirname(__FILE__).'/main.php'),
+	[
+		'import'=>[
+			'application.tests.components.*',
+			'application.tests.helpers.*',
+		],
+		'components'=>[
+			'fixture'=>[
+				'class'=>'system.test.CDbFixtureManager',
+				'basePath'=>dirname(__FILE__).'/../tests/fixtures',
+			],
+			'request'=>[
+				'class'=>'TestHttpRequest',
+				'hostInfo'=>'http://localhost',
+				'baseUrl'=>'/',
+				'scriptUrl'=>'/index-test.php',
+			],
+			'assetManager'=>[
+				'basePath'=>dirname(__FILE__).'/../../assets',
+				'baseUrl'=>'/assets',
+			],
+            'queue'=>[
+                'driver'=>'sync',
+            ],
+		],
+	]
+);

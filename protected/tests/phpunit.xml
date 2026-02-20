@@ -1,0 +1,16 @@
+<phpunit bootstrap="bootstrap.php"
+		colors="false"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		stopOnFailure="false">
+
+	<testsuites>
+		<testsuite name="functional">
+			<directory>./functional</directory>
+		</testsuite>
+		<testsuite name="unit">
+			<directory>./unit</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

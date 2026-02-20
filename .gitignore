@@ -1,0 +1,29 @@
+# OS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+nbproject/
+
+# Yii runtime/cache
+protected/runtime/*
+assets/*
+
+# Local data & dumps
+protected/data/*.db
+protected/data/*.sqlite
+protected/data/*.sql
+
+# Dependencies
+vendor/
+
+# Logs & reports
+*.log
+protected/tests/report/*
+
+# Env/config overrides
+.env
+
+# Docker named volume (if bound locally)
+db_data/
