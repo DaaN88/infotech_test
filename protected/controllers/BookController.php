@@ -25,7 +25,7 @@ class BookController extends Controller
             $this->renderJson(
                 [
                     'success' => false,
-                    'message' => 'Требуется авторизация. Перезайдите и повторите.'
+                    'message' => Yii::t('app', 'book.auth.required')
                 ],
                 401
             );
@@ -65,7 +65,7 @@ class BookController extends Controller
         $this->requireAjax();
 
         try {
-            $book = Yii::app()->bookService->create(
+            $book = Yii::app()->bookRepository->create(
                 $_POST['Book'] ?? [],
                 $_POST['authors'] ?? [],
                 CUploadedFile::getInstanceByName('cover')
@@ -86,7 +86,8 @@ class BookController extends Controller
             $this->renderJson(['success' => false, 'message' => $e->getMessage()]);
         } catch (RuntimeException $e) {
             Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
-            $this->renderJson(['success' => false, 'message' => 'Ошибка сохранения книги. Попробуйте позже.']);
+
+            $this->renderJson(['success' => false, 'message' => Yii::t('app', 'book.save.error')]);
         }
     }
 
@@ -99,7 +100,7 @@ class BookController extends Controller
         $this->requireAjax();
 
         try {
-            $book = Yii::app()->bookService->update(
+            $book = Yii::app()->bookRepository->update(
                 $id,
                 $_POST['Book'] ?? [],
                 $_POST['authors'] ?? [],
@@ -121,7 +122,8 @@ class BookController extends Controller
             $this->renderJson(['success' => false, 'message' => $e->getMessage()]);
         } catch (RuntimeException $e) {
             Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
-            $this->renderJson(['success' => false, 'message' => 'Ошибка обновления книги. Попробуйте позже.']);
+
+            $this->renderJson(['success' => false, 'message' => Yii::t('app', 'book.update.error')]);
         }
     }
 
@@ -133,13 +135,13 @@ class BookController extends Controller
         $this->requireAjax();
 
         try {
-            Yii::app()->bookService->delete($id);
+            Yii::app()->bookRepository->delete($id);
             $this->renderJson(['success' => true, 'id' => $id]);
         } catch (NotFoundException $e) {
             $this->renderJson(['success' => false, 'message' => $e->getMessage()]);
         } catch (RuntimeException $e) {
             Yii::log($e->getMessage(), CLogger::LEVEL_ERROR);
-            $this->renderJson(['success' => false, 'message' => 'Не удалось удалить книгу. Попробуйте позже.']);
+            $this->renderJson(['success' => false, 'message' => Yii::t('app', 'book.delete.error')]);
         }
     }
 
@@ -151,7 +153,7 @@ class BookController extends Controller
         $this->requireAjax();
 
         try {
-            $book = Yii::app()->bookService->load($id);
+            $book = Yii::app()->bookRepository->load($id);
 
             $this->renderJson([
                 'success' => true,

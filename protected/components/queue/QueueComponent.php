@@ -14,7 +14,6 @@ use Yiisoft\Queue\Middleware\Consume\MiddlewareFactoryConsume;
 use Yiisoft\Queue\Middleware\FailureHandling\FailureMiddlewareDispatcher;
 use Yiisoft\Queue\Middleware\FailureHandling\MiddlewareFactoryFailure;
 use Yiisoft\Queue\Middleware\Push\MiddlewareFactoryPush;
-use Yiisoft\Queue\Middleware\Push\MiddlewarePushInterface;
 use Yiisoft\Queue\Middleware\Push\PushMiddlewareDispatcher;
 use Yiisoft\Queue\Queue;
 use Yiisoft\Queue\QueueInterface;
@@ -84,29 +83,7 @@ class QueueComponent extends CApplicationComponent
     private function createAdapter(Worker $worker, SimpleLoop $loop): SynchronousAdapter|RedisAdapter
     {
         if ($this->driver === 'sync') {
-            return new SynchronousAdapter($worker, new class implements QueueInterface {
-                public function getChannel(): string { return 'sync'; }
-                public function push(
-                    MessageInterface $message,
-                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
-                ): MessageInterface { return $message; }
-
-                public function run(int $max = 0): int { return 0; }
-
-                public function listen(): void {}
-
-                public function status(string|int $id): \Yiisoft\Queue\JobStatus {
-                    return \Yiisoft\Queue\JobStatus::DONE;
-                }
-
-                public function withAdapter(\Yiisoft\Queue\Adapter\AdapterInterface $adapter): static { return $this; }
-                public function withMiddlewares(
-                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
-                ): \Yiisoft\Queue\QueueInterface { return $this; }
-                public function withMiddlewaresAdded(
-                    MiddlewarePushInterface|callable|array|string ...$middlewareDefinitions
-                ): \Yiisoft\Queue\QueueInterface { return $this; }
-            }, 'sync');
+            return new SynchronousAdapter($worker, new SyncInMemoryQueue(), 'sync');
         }
 
         $redis = new Redis();

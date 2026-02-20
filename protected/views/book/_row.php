@@ -63,7 +63,15 @@ $authorIds = implode(',', CHtml::listData($book->authors, 'id', 'id'));
 
   <td class="px-5 py-4 align-top text-right whitespace-nowrap">
     <?php if (Yii::app()->user->isGuest): ?>
-      <?php echo CHtml::link('Подписаться', array('/subscription/create', 'author'=>$book->authors ? $book->authors[0]->id : null), array(
+      <?php
+        $authors = $book->authors ?: [];
+        if (count($authors) === 1) {
+            $subscriptionParams = ['author' => $authors[0]->id];
+        } else {
+            $subscriptionParams = ['book' => $book->id];
+        }
+      ?>
+      <?php echo CHtml::link('Подписаться', array_merge(array('/subscription/create'), $subscriptionParams), array(
           'class'=>'inline-flex items-center justify-center rounded-lg bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 ring-1 ring-inset ring-sky-400/30 hover:bg-sky-500/25 hover:text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/40 whitespace-nowrap shrink-0'
       )); ?>
     <?php else: ?>

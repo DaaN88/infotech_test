@@ -38,11 +38,18 @@ class Subscription extends CActiveRecord
     public function rules(): array
     {
         return [
-            ['author_id, phone, name', 'required'],
+            ['author_id', 'required', 'message' => Yii::t('app', 'subscription.author.required')],
+            ['phone', 'required', 'message' => Yii::t('app', 'subscription.phone.required')],
+            ['name', 'required', 'message' => Yii::t('app', 'subscription.name.required')],
             ['author_id, user_id', 'numerical', 'integerOnly' => true],
             ['phone', 'length', 'max' => 32],
             ['name', 'length', 'max' => 255],
-            ['phone', 'match', 'pattern' => '/^\\+?[0-9]{10,15}$/', 'message' => 'Введите корректный номер телефона.'],
+            [
+                'phone',
+                'match',
+                'pattern' => '/^\\+?[0-9]{10,15}$/',
+                'message' => Yii::t('app', 'subscription.phone.invalid')
+            ],
             [
                 'phone',
                 'unique',
@@ -50,7 +57,7 @@ class Subscription extends CActiveRecord
                     'condition' => 'author_id=:author_id AND phone=:phone',
                     'params' => [],
                 ],
-                'message' => 'Вы уже подписаны на этого автора.',
+                'message' => Yii::t('app', 'subscription.phone.unique'),
             ],
         ];
     }
@@ -71,5 +78,14 @@ class Subscription extends CActiveRecord
         }
 
         return parent::beforeValidate();
+    }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'author_id' => Yii::t('app', 'subscription.label.author'),
+            'phone' => Yii::t('app', 'subscription.label.phone'),
+            'name' => Yii::t('app', 'subscription.label.name'),
+        ];
     }
 }

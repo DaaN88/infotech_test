@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . '/../components/Env.php';
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Каталог книг',
+    'sourceLanguage'=>'en',
+    'language'=>'ru',
 	'defaultController'=>'auth',
 	'homeUrl'=>array('/book/index'),
 
@@ -24,7 +26,9 @@ return array(
         'application.components.*',
         'application.components.notifications.*',
         'application.components.queue.*',
+        'application.components.queue.SyncInMemoryQueue',
         'application.components.jobs.*',
+        'application.components.exceptions.*',
     ),
 
 	'modules'=>array(
@@ -118,8 +122,11 @@ return array(
             'redisHost'=>Env::get('REDIS_HOST', 'redis'),
             'redisPort'=> (int)(Env::get('REDIS_PORT', 6379)),
         ),
-        'bookService'=>array(
-            'class'=>'BookService',
+        'bookRepository'=>array(
+            'class'=>'BookRepository',
+        ),
+        'transactionManager'=>array(
+            'class'=>'ModelTransactionManager',
         ),
 
     ),

@@ -42,11 +42,12 @@ class SmsClient
             $result = file_get_contents($url, false, $ctx);
 
             if ($result === false) {
-                throw new RuntimeException('Не удалось отправить SMS');
+                throw new RuntimeException(Yii::t('app', 'sms.send.error'));
             }
 
             // Логируем ответ смспилота (эмулятор) для контроля доставки.
             $short = mb_substr((string) $result, 0, 500, 'UTF-8');
+
             Yii::log(
                 sprintf(
                     'SMS sent via smspilot: phone=%s, text="%s", response=%s',
@@ -64,7 +65,7 @@ class SmsClient
                 'sms'
             );
 
-            throw new RuntimeException('Не удалось отправить SMS', 0, $e);
+            throw new RuntimeException(Yii::t('app', 'sms.send.error'), 0, $e);
         } finally {
             if ($previousHandler !== null) {
                 set_error_handler($previousHandler);

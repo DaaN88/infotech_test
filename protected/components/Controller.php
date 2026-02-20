@@ -27,7 +27,7 @@ class Controller extends CController
     protected function requireAjax(): void
     {
         if (! Yii::app()->request->isAjaxRequest) {
-            throw new CHttpException(400, 'Только AJAX запросы поддерживаются.');
+            throw new CHttpException(400, Yii::t('app', 'controller.ajax_only'));
         }
     }
 

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 class SubscriptionController extends Controller
 {
-    public function filters()
+    public function filters(): array
     {
         return [
             'accessControl',
         ];
     }
 
-    public function accessRules()
+    public function accessRules(): array
     {
         return [
             ['allow', 'users' => ['*']],
@@ -19,33 +19,77 @@ class SubscriptionController extends Controller
         ];
     }
 
+    /**
+     * @throws CHttpException
+     */
     public function actionCreate(): void
     {
         $authorId = (int) Yii::app()->request->getParam('author');
+        $bookId = (int) Yii::app()->request->getParam('book');
 
-        $author = Author::model()->findByPk($authorId);
-        if (! $author) {
-            throw new CHttpException(404, 'Автор не найден');
+        $allowedAuthors = [];
+        $book = null;
+
+        if ($bookId) {
+            $book = Book::model()->with('authors')->findByPk($bookId);
+
+            if (! $book) {
+                throw new CHttpException(404, Yii::t('app', 'subscription.book.not_found'));
+            }
+
+            $allowedAuthors = array_values($book->authors ?: []);
         }
 
+        if ($authorId) {
+            $author = Author::model()->findByPk($authorId);
+            if (! $author) {
+                throw new CHttpException(404, Yii::t('app', 'subscription.author.not_found'));
+            }
+            $allowedAuthors = [$author];
+        }
+
+        $allAuthors = Author::model()->findAll(['order' => 'name ASC']);
+
+        // Если параметров нет или не найдено авторов для книги — даём выбрать любого автора из базы.
+        if (! $allowedAuthors) {
+            $allowedAuthors = $allAuthors;
+        }
+
+        $authorOptions = CHtml::listData($allAuthors, 'id', 'name');
+        $allowedIds = array_values(array_map('intval', array_keys($authorOptions)));
         $model = new Subscription();
-        $model->author_id = $authorId;
         $model->created_at = date('Y-m-d H:i:s');
+
+        // Если автор для контекста известен — используем первого в списке.
+        if (! empty($allowedAuthors)) {
+            $first = reset($allowedAuthors);
+
+            if ($first) {
+                $model->author_id = (int) $first->id;
+            }
+        }
 
         if (isset($_POST['Subscription'])) {
             $model->attributes = $_POST['Subscription'];
-            $model->author_id = $authorId; // защищаем author_id от подмены
+
+            if (! in_array((int) $model->author_id, $allowedIds, true)) {
+                $model->addError('author_id', Yii::t('app', 'subscription.author.choose'));
+            }
 
             if ($model->save()) {
-                Yii::app()->user->setFlash('success', 'Подписка оформлена. Мы сообщим о новых книгах автора.');
+                Yii::app()->user->setFlash('success', Yii::t('app', 'subscription.flash.created'));
+
                 $this->redirect(array('/book/index'));
+
                 return;
             }
         }
 
         $this->render('create', [
             'model' => $model,
-            'author' => $author,
+            'author' => count($allowedAuthors) === 1 ? reset($allowedAuthors) : null,
+            'authorOptions' => $authorOptions,
+            'book' => $book,
         ]);
     }
 }

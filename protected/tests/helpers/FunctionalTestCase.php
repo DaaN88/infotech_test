@@ -21,6 +21,10 @@ abstract class FunctionalTestCase extends CDbTestCase
         }
         Yii::app()->session->open();
         Yii::app()->user->logout(false);
+        // Подключаем общие заглушки/моки для функциональных тестов
+        foreach (glob(__DIR__ . '/../support/*.php') as $supportFile) {
+            require_once $supportFile;
+        }
         $this->resetRequestState();
     }
 

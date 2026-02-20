@@ -24,7 +24,7 @@ class DummyQueueComponent extends CApplicationComponent
     }
 }
 
-class BookServiceTest extends CDbTestCase
+class BookRepositoryTest extends CDbTestCase
 {
     protected $fixtures = array(
         'users' => 'User',
@@ -35,14 +35,26 @@ class BookServiceTest extends CDbTestCase
         'subscriptions' => 'Subscription',
     );
 
-    private BookService $service;
+    private BookRepository $repo;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->service = Yii::app()->bookService;
+        $this->repo = Yii::app()->bookRepository;
         DummyNotificationService::$enqueued = 0;
         Yii::app()->setComponent('notificationService', new DummyNotificationService());
+    }
+
+    protected function tearDown()
+    {
+        // Восстанавливаем очередь и сервис уведомлений для других тестов.
+        $queue = new QueueComponent();
+        $queue->driver = 'sync';
+        $queue->init();
+        Yii::app()->setComponent('queue', $queue);
+        Yii::app()->setComponent('notificationService', new NotificationService());
+
+        parent::tearDown();
     }
 
     public function testCreateEnqueuesJobsForSubscribedAuthor()
@@ -68,7 +80,7 @@ class BookServiceTest extends CDbTestCase
             'description' => 'Тест уведомления',
         );
 
-        $book = $this->service->create($attrs, array(1), null);
+        $book = $this->repo->create($attrs, array(1), null);
 
         $this->assertNotNull($book->id);
         $this->assertCount(1, $queue->pushed, 'Должна быть поставлена одна задача отправки СМС');
@@ -83,7 +95,7 @@ class BookServiceTest extends CDbTestCase
             'description' => 'Тестовое описание',
         );
 
-        $book = $this->service->create($attrs, array(1, 2), null);
+        $book = $this->repo->create($attrs, array(1, 2), null);
 
         $this->assertNotNull(Book::model()->findByPk($book->id));
         $this->assertCount(2, $book->authors);
@@ -104,7 +116,7 @@ class BookServiceTest extends CDbTestCase
         $data = $book->attributes;
         $data['title'] = 'Архитектура систем v2';
 
-        $updated = $this->service->update(2, $data, array(2), null); // меняем автора на 2 (Мария)
+        $updated = $this->repo->update(2, $data, array(2), null); // меняем автора на 2 (Мария)
 
         $this->assertEquals('Архитектура систем v2', $updated->title);
         $authors = array_values(array_map('intval', CHtml::listData($updated->authors, 'id', 'id')));
@@ -123,7 +135,7 @@ class BookServiceTest extends CDbTestCase
         $sub->created_at = date('Y-m-d H:i:s');
         $this->assertTrue($sub->save());
 
-        $this->service->delete(2); // удаляем книгу автора 3
+        $this->repo->delete(2); // удаляем книгу автора 3
 
         $this->assertNull(Book::model()->findByPk(2));
         $this->assertCount(0, Subscription::model()->findAllByAttributes(array('author_id' => 3)));
@@ -132,10 +144,24 @@ class BookServiceTest extends CDbTestCase
     public function testCreateFailsWithoutAuthors()
     {
         $this->setExpectedException(ValidationException::class);
-        $this->service->create(
+        $this->repo->create(
             array('title' => 'Без автора', 'year' => 2024, 'isbn' => '978-0-00000-000-0'),
             array(),
             null
         );
+    }
+
+    public function testUpdateKeepsExistingAuthorsWhenNotProvided()
+    {
+        $book = Book::model()->findByPk(1); // имеет авторов 1 и 2
+        $data = $book->attributes;
+        $data['title'] = 'Путь разработчика (ред.)';
+
+        $updated = $this->repo->update(1, $data, array(), null);
+
+        $this->assertEquals('Путь разработчика (ред.)', $updated->title);
+        $authors = array_values(array_map('intval', CHtml::listData($updated->authors, 'id', 'id')));
+        sort($authors);
+        $this->assertEquals(array(1, 2), $authors);
     }
 }

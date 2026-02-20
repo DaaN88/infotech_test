@@ -107,6 +107,7 @@ Yii::app()->clientScript->registerCoreScript('jquery');
           'lastPageLabel' => 'Последняя »',
           'nextPageLabel' => 'Следующая ›',
           'prevPageLabel' => '‹ Предыдущая',
+          'header' => Yii::t('app', 'Page: '),
       )); ?>
     </div>
     <div class="ml-auto">

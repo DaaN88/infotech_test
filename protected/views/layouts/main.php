@@ -25,7 +25,7 @@
 		<div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
 			<div class="flex items-center gap-3">
 				<div id="logo" class="text-lg font-semibold tracking-tight"><?php echo CHtml::encode(Yii::app()->name); ?></div>
-				<?php echo CHtml::link('Каталог', array('/book/index'), array(
+				<?php echo CHtml::link(Yii::t('app', 'Catalog'), array('/book/index'), array(
 					'class'=>'inline-flex items-center rounded-lg border border-sky-400/30 bg-white/5 px-3 py-1.5 text-sm font-medium text-sky-200 hover:bg-white/10 hover:border-sky-400/50 focus:outline-none focus:ring-2 focus:ring-sky-400/40'
 				)); ?>
 			</div>
@@ -46,6 +46,7 @@
 			<nav class="mb-6 text-sm text-slate-300">
 				<?php $this->widget('zii.widgets.CBreadcrumbs', array(
 					'links'=>$this->breadcrumbs,
+					'homeLink'=>CHtml::link(Yii::t('app', 'Home'), Yii::app()->homeUrl),
 					'htmlOptions'=>array('class'=>'flex items-center gap-2'),
 					'separator'=>'<span class="text-slate-500">›</span>',
 				)); ?>

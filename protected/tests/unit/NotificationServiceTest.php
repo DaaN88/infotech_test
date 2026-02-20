@@ -26,6 +26,11 @@ class NotificationServiceTest extends CDbTestCase
         parent::setUp();
         DummyNotifier::$sent = [];
         Yii::app()->setComponent('notifier', new DummyNotifier());
+
+        $queue = new QueueComponent();
+        $queue->driver = 'sync';
+        $queue->init();
+        Yii::app()->setComponent('queue', $queue);
     }
 
     public function testEnqueueNewBookCreatesSmsJobs()

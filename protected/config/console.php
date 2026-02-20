@@ -17,6 +17,7 @@ return array(
         'application.components.notifications.*',
         'application.components.queue.*',
         'application.components.jobs.*',
+        'application.components.exceptions.*',
     ),
 
 	// application components
@@ -26,9 +27,9 @@ return array(
 		'db'=>require(dirname(__FILE__).'/database.php'),
 
 		// общий сервис отчетов (можно дернуть из консольных команд)
-		'reportService'=>array(
-			'class'=>'TopAuthorsReportService',
-		),
+        'reportService'=>array(
+            'class'=>'TopAuthorsReportService',
+        ),
 
         'notificationFactory'=>array(
             'class'=>'NotificationFactory',
@@ -45,6 +46,12 @@ return array(
             'driver'=>Env::get('QUEUE_DRIVER', 'redis'),
             'redisHost'=>Env::get('REDIS_HOST', 'redis'),
             'redisPort'=> (int)(Env::get('REDIS_PORT', 6379)),
+        ),
+        'bookRepository'=>array(
+            'class'=>'BookRepository',
+        ),
+        'transactionManager'=>array(
+            'class'=>'ModelTransactionManager',
         ),
 
         'log'=>array(

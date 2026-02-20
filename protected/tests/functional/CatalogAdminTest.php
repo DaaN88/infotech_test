@@ -30,6 +30,8 @@ class CatalogAdminTest extends FunctionalTestCase
         $this->assertContains('Редактировать', $catalog['content']);
         $this->assertContains('Удалить', $catalog['content']);
         $this->assertNotContains('Подписаться', $catalog['content']);
+        $this->assertContains('Главная', $catalog['content'], 'Должна отображаться локализованная ссылка в хлебных крошках');
+        $this->assertContains('Страница:', $catalog['content'], 'Должен выводиться локализованный заголовок пагинации');
     }
 
     protected function tearDown()
