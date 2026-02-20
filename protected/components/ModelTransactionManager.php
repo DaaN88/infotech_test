@@ -21,7 +21,7 @@ class ModelTransactionManager extends CApplicationComponent
         }
     }
 
-    public function save(array $models): void
+    public function save( $models): void
     {
         $this->run(function () use ($models) {
             foreach ($models as $model) {

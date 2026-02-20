@@ -79,7 +79,7 @@ class SubscriptionController extends Controller
             if ($model->save()) {
                 Yii::app()->user->setFlash('success', Yii::t('app', 'subscription.flash.created'));
 
-                $this->redirect(array('/book/index'));
+                $this->redirect(['/book/index']);
 
                 return;
             }

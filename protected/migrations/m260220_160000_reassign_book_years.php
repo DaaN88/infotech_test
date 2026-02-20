@@ -9,7 +9,7 @@ class m260220_160000_reassign_book_years extends CDbMigration
 {
     public function up()
     {
-        $mapping = array(
+        $mapping = [
             1 => 2024,
             2 => 2023,
             3 => 2024,
@@ -30,17 +30,17 @@ class m260220_160000_reassign_book_years extends CDbMigration
             18 => 2024,
             19 => 2024,
             20 => 2022,
-        );
+        ];
 
         foreach ($mapping as $id => $year) {
-            $this->update('books', array('year' => $year), 'id=:id', array(':id' => $id));
+            $this->update('books', ['year' => $year], 'id=:id', [':id' => $id]);
         }
     }
 
     public function down()
     {
         // возвращаем базовое распределение (2024 основное, 2023 для нескольких)
-        $fallback = array(
+        $fallback = [
             1 => 2024,
             2 => 2023,
             3 => 2024,
@@ -61,10 +61,10 @@ class m260220_160000_reassign_book_years extends CDbMigration
             18 => 2024,
             19 => 2024,
             20 => 2024,
-        );
+        ];
 
         foreach ($fallback as $id => $year) {
-            $this->update('books', array('year' => $year), 'id=:id', array(':id' => $id));
+            $this->update('books', ['year' => $year], 'id=:id', [':id' => $id]);
         }
     }
 }

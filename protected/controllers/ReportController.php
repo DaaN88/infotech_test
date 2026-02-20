@@ -26,10 +26,10 @@ class ReportController extends Controller
         $this->pageTitle = 'ТОП-10 авторов';
         $this->breadcrumbs = ['Отчет', 'ТОП-10'];
 
-        $this->render('top', array(
+        $this->render('top', [
             'topAuthors' => $topAuthors,
             'year' => $year,
             'years' => $years,
-        ));
+        ]);
     }
 }

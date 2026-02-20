@@ -6,6 +6,18 @@ class AuthController extends Controller
 {
     public $defaultAction = 'login';
 
+    public function filters(): array
+    {
+        return [
+            [
+                'RateLimitFilter + login',
+                'maxAttempts' => 5,
+                'decaySeconds' => 60,
+                'cachePrefix' => 'auth_login',
+            ],
+        ];
+    }
+
     public function actionLogin(): void
     {
         if (! Yii::app()->user->isGuest) {
@@ -30,6 +42,6 @@ class AuthController extends Controller
             }
         }
 
-        $this->render('login', array('model' => $model));
+        $this->render('login', ['model' => $model]);
     }
 }

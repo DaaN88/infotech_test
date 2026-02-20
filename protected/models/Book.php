@@ -69,7 +69,7 @@ class Book extends CActiveRecord
      *
      * @param int[] $authorIds
      */
-    public function syncAuthors(array $authorIds): void
+    public function syncAuthors( $authorIds): void
     {
         $authorIds = array_values(array_unique(array_filter(array_map('intval', $authorIds))));
 

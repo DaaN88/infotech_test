@@ -19,9 +19,9 @@ class Author extends CActiveRecord
 
     public function relations()
     {
-        return array(
-            'books' => array(self::MANY_MANY, 'Book', 'book_author(author_id, book_id)'),
-            'subscriptions' => array(self::HAS_MANY, 'Subscription', 'author_id'),
-        );
+        return [
+            'books' => [self::MANY_MANY, 'Book', 'book_author(author_id, book_id)'],
+            'subscriptions' => [self::HAS_MANY, 'Subscription', 'author_id'],
+        ];
     }
 }

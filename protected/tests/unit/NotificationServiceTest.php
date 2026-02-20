@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 class DummyNotifier extends Notifier
 {
-    public static array $sent = [];
+    public static  $sent = [];
 
     public function sendSms(string $phone, string $message): void
     {
@@ -13,13 +13,13 @@ class DummyNotifier extends Notifier
 
 class NotificationServiceTest extends CDbTestCase
 {
-    protected $fixtures = array(
+    protected $fixtures = [
         'users' => 'User',
         'authors' => 'Author',
         'books' => 'Book',
         'book_author' => ':book_author',
         'subscriptions' => 'Subscription',
-    );
+    ];
 
     protected function setUp()
     {

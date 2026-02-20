@@ -2,9 +2,9 @@
 /* @var $this SiteController */
 
 $this->pageTitle=Yii::app()->name . ' - About';
-$this->breadcrumbs=array(
+$this->breadcrumbs=[
 	'About',
-);
+];
 ?>
 <h1>About</h1>
 

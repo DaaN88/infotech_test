@@ -8,11 +8,11 @@ class m260219_130000_seed_demo extends CDbMigration
     {
         $now = new CDbExpression('NOW()');
 
-        $this->insert('authors', array('name' => 'Иван Иванов', 'created_at' => $now, 'updated_at' => $now));
-        $this->insert('authors', array('name' => 'Мария Петрова', 'created_at' => $now, 'updated_at' => $now));
-        $this->insert('authors', array('name' => 'Джон Смит', 'created_at' => $now, 'updated_at' => $now));
+        $this->insert('authors', ['name' => 'Иван Иванов', 'created_at' => $now, 'updated_at' => $now]);
+        $this->insert('authors', ['name' => 'Мария Петрова', 'created_at' => $now, 'updated_at' => $now]);
+        $this->insert('authors', ['name' => 'Джон Смит', 'created_at' => $now, 'updated_at' => $now]);
 
-        $this->insert('books', array(
+        $this->insert('books', [
             'title' => 'Путь разработчика',
             'year' => 2024,
             'description' => 'Практические советы по построению карьеры.',
@@ -20,8 +20,8 @@ class m260219_130000_seed_demo extends CDbMigration
             'cover_path' => null,
             'created_at' => $now,
             'updated_at' => $now,
-        ));
-        $this->insert('books', array(
+        ]);
+        $this->insert('books', [
             'title' => 'Архитектура систем',
             'year' => 2023,
             'description' => 'Шаблоны и подходы к проектированию сложных сервисов.',
@@ -29,12 +29,12 @@ class m260219_130000_seed_demo extends CDbMigration
             'cover_path' => null,
             'created_at' => $now,
             'updated_at' => $now,
-        ));
+        ]);
 
         // link authors
-        $this->insert('book_author', array('book_id' => 1, 'author_id' => 1));
-        $this->insert('book_author', array('book_id' => 1, 'author_id' => 2));
-        $this->insert('book_author', array('book_id' => 2, 'author_id' => 3));
+        $this->insert('book_author', ['book_id' => 1, 'author_id' => 1]);
+        $this->insert('book_author', ['book_id' => 1, 'author_id' => 2]);
+        $this->insert('book_author', ['book_id' => 2, 'author_id' => 3]);
     }
 
     public function down()

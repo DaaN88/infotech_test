@@ -16,7 +16,7 @@ class BookAjaxCrudTest extends FunctionalTestCase
         // отметим запрос как AJAX
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $response = $this->dispatch('book/delete', 'POST', array('id' => 1), array());
+        $response = $this->dispatch('book/delete', 'POST', ['id' => 1], []);
 
         $data = json_decode($response['content'], true);
         $this->assertNotNull($data, 'Ответ должен быть JSON');

@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
     'Home' => 'Главная',
     'Catalog' => 'Каталог',
     'Page: ' => 'Страница: ',
@@ -38,5 +38,7 @@ return array(
 
     'sms.send.error' => 'Не удалось отправить SMS',
 
+    'auth.rate_limited' => 'Слишком много попыток входа. Подождите {seconds} секунд и попробуйте снова.',
+
     'model.save_failed' => 'Не удалось сохранить данные.',
-);
+];

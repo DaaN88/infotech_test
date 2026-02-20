@@ -13,13 +13,13 @@ class CatalogAdminTest extends FunctionalTestCase
      */
     public function testLoginWithValidCredentialsRedirectsToCatalog()
     {
-        $response = $this->post('auth/login', array(
-            'LoginForm' => array(
+        $response = $this->post('auth/login', [
+            'LoginForm' => [
                 'username' => 'admin',
                 'password' => 'admin',
                 'rememberMe' => 0,
-            ),
-        ));
+            ],
+        ]);
 
         $this->assertFalse(Yii::app()->user->isGuest);
         $this->assertEquals('admin', Yii::app()->user->name);
@@ -30,7 +30,7 @@ class CatalogAdminTest extends FunctionalTestCase
         $this->assertContains('Редактировать', $catalog['content']);
         $this->assertContains('Удалить', $catalog['content']);
         $this->assertNotContains('Подписаться', $catalog['content']);
-        $this->assertContains('Главная', $catalog['content'], 'Должна отображаться локализованная ссылка в хлебных крошках');
+        $this->assertContains('Главная', $catalog['content'], 'Крошки должны быть локализованы');
         $this->assertContains('Страница:', $catalog['content'], 'Должен выводиться локализованный заголовок пагинации');
     }
 

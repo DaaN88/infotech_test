@@ -6,11 +6,23 @@ declare(strict_types=1);
 /* @var $authors Author[] */
 
 $this->pageTitle = 'Каталог книг';
-$this->breadcrumbs = array('Каталог');
+$this->breadcrumbs = ['Каталог'];
 
 $authorOptions = CHtml::listData($authors, 'id', 'name');
 
 Yii::app()->clientScript->registerCoreScript('jquery');
+
+$inputClass = 'rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100';
+$selectClass = $inputClass;
+$submitBtnClass = 'inline-flex items-center px-4 py-2 rounded-lg bg-emerald-500/80 text-sm font-semibold '
+    . 'text-white hover:bg-emerald-400';
+$cancelBtnClass = 'inline-flex items-center px-4 py-2 rounded-lg bg-slate-700 text-sm font-semibold text-white '
+    . 'hover:bg-slate-600';
+$theadClass = 'bg-slate-900 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b '
+    . 'border-white/10';
+$reportLinkClass = 'inline-flex items-center justify-center rounded-lg bg-emerald-500/15 px-4 py-2 text-sm '
+    . 'font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-400/30 hover:bg-emerald-500/25 '
+    . 'hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 whitespace-nowrap shrink-0';
 ?>
 
 <?php if (! Yii::app()->user->isGuest): ?>
@@ -28,27 +40,27 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
       <label class="flex flex-col gap-1">
         <span class="text-sm text-slate-200 font-medium">Название *</span>
-        <input required type="text" name="Book[title]" id="book_title" class="rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100" />
+        <input required type="text" name="Book[title]" id="book_title" class="<?php echo $inputClass; ?>" />
       </label>
 
       <label class="flex flex-col gap-1">
         <span class="text-sm text-slate-200 font-medium">Год *</span>
-        <input required type="number" name="Book[year]" id="book_year" class="rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100" min="1" />
+        <input required type="number" name="Book[year]" id="book_year" class="<?php echo $inputClass; ?>" min="1" />
       </label>
 
       <label class="flex flex-col gap-1 sm:col-span-2">
         <span class="text-sm text-slate-200 font-medium">ISBN *</span>
-        <input required type="text" name="Book[isbn]" id="book_isbn" class="rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100" />
+        <input required type="text" name="Book[isbn]" id="book_isbn" class="<?php echo $inputClass; ?>" />
       </label>
 
       <label class="flex flex-col gap-1 sm:col-span-2">
         <span class="text-sm text-slate-200 font-medium">Описание</span>
-        <textarea name="Book[description]" id="book_description" rows="2" class="rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100"></textarea>
+        <textarea name="Book[description]" id="book_description" rows="2" class="<?php echo $inputClass; ?>"></textarea>
       </label>
 
       <label class="flex flex-col gap-1">
         <span class="text-sm text-slate-200 font-medium">Авторы *</span>
-        <select name="authors[]" id="book_authors" multiple size="5" class="rounded-lg bg-slate-800/70 border border-white/10 px-3 py-2 text-slate-100">
+        <select name="authors[]" id="book_authors" multiple size="5" class="<?php echo $selectClass; ?>">
           <?php foreach ($authorOptions as $id => $name): ?>
             <option value="<?php echo (int) $id; ?>"><?php echo CHtml::encode($name); ?></option>
           <?php endforeach; ?>
@@ -62,10 +74,10 @@ Yii::app()->clientScript->registerCoreScript('jquery');
       </label>
 
       <div class="sm:col-span-2 flex items-center gap-3 pt-2">
-        <button type="submit" class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-500/80 text-sm font-semibold text-white hover:bg-emerald-400" id="book-submit-btn">
+        <button type="submit" class="<?php echo $submitBtnClass; ?>" id="book-submit-btn">
           Сохранить
         </button>
-        <button type="button" class="hidden inline-flex items-center px-4 py-2 rounded-lg bg-slate-700 text-sm font-semibold text-white hover:bg-slate-600" id="book-cancel-edit">
+        <button type="button" class="hidden <?php echo $cancelBtnClass; ?>" id="book-cancel-edit">
           Отмена редактирования
         </button>
         <div id="book-form-status" class="text-sm text-slate-300"></div>
@@ -78,7 +90,7 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 <section class="rounded-xl border border-white/5 bg-slate-900/80">
   <div class="w-full">
     <table class="w-full table-auto text-left text-sm">
-      <thead class="bg-slate-900 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b border-white/10">
+      <thead class="<?php echo $theadClass; ?>">
         <tr>
           <th class="px-5 py-3">Название</th>
           <th class="px-5 py-3 w-48">Авторы</th>
@@ -100,20 +112,20 @@ Yii::app()->clientScript->registerCoreScript('jquery');
 
   <div class="px-4 pb-4 flex items-center justify-between gap-4">
     <div>
-      <?php $this->widget('CLinkPager', array(
+      <?php $this->widget('CLinkPager', [
           'pages' => $dataProvider->getPagination(),
-          'htmlOptions' => array('class' => 'pager'),
+          'htmlOptions' => ['class' => 'pager'],
           'firstPageLabel' => '« Первая',
           'lastPageLabel' => 'Последняя »',
           'nextPageLabel' => 'Следующая ›',
           'prevPageLabel' => '‹ Предыдущая',
           'header' => Yii::t('app', 'Page: '),
-      )); ?>
+      ]); ?>
     </div>
     <div class="ml-auto">
-      <?php echo CHtml::link('ТОП-10', array('/report/top'), array(
-          'class'=>'inline-flex items-center justify-center rounded-lg bg-emerald-500/15 px-4 py-2 text-sm font-semibold text-emerald-200 ring-1 ring-inset ring-emerald-400/30 hover:bg-emerald-500/25 hover:text-emerald-100 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 whitespace-nowrap shrink-0'
-      )); ?>
+      <?php echo CHtml::link('ТОП-10', ['/report/top'], [
+          'class'=>$reportLinkClass
+      ]); ?>
     </div>
   </div>
 </section>

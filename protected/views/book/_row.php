@@ -6,6 +6,13 @@ declare(strict_types=1);
 $primaryPhoto = $book->primaryPhoto;
 $authorsList = implode(', ', CHtml::listData($book->authors, 'id', 'name'));
 $authorIds = implode(',', CHtml::listData($book->authors, 'id', 'id'));
+$subscribeBtnClass = 'inline-flex items-center justify-center rounded-lg bg-sky-500/15 px-4 py-2 text-sm font-semibold '
+    . 'text-sky-200 ring-1 ring-inset ring-sky-400/30 hover:bg-sky-500/25 hover:text-sky-100 focus:outline-none '
+    . 'focus:ring-2 focus:ring-sky-400/40 whitespace-nowrap shrink-0';
+$editBtnClass = 'js-book-edit inline-flex items-center justify-center rounded-lg bg-slate-200 px-3 py-2 text-sm '
+    . 'font-semibold text-slate-900 hover:bg-white transition whitespace-nowrap shrink-0';
+$deleteBtnClass = 'js-book-delete inline-flex items-center justify-center rounded-lg bg-rose-500 px-3 py-2 text-sm '
+    . 'font-semibold text-white hover:bg-rose-400 transition whitespace-nowrap shrink-0';
 ?>
 <tr
   id="book-row-<?php echo (int) $book->id; ?>"
@@ -21,12 +28,12 @@ $authorIds = implode(',', CHtml::listData($book->authors, 'id', 'id'));
     <?php if ($primaryPhoto): ?>
       <?php echo CHtml::link(CHtml::encode($book->title),
         Yii::app()->request->baseUrl . '/images/' . $primaryPhoto->file_name,
-        array(
+        [
             'class'=>'font-semibold text-sky-200 hover:text-sky-100 underline decoration-sky-400/70',
             'target'=>'_blank',
             'rel'=>'noopener',
             'title'=>'Откроется фото в новой вкладке',
-        )
+        ]
       ); ?>
     <?php else: ?>
       <span class="font-semibold text-sky-200">
@@ -71,18 +78,18 @@ $authorIds = implode(',', CHtml::listData($book->authors, 'id', 'id'));
             $subscriptionParams = ['book' => $book->id];
         }
       ?>
-      <?php echo CHtml::link('Подписаться', array_merge(array('/subscription/create'), $subscriptionParams), array(
-          'class'=>'inline-flex items-center justify-center rounded-lg bg-sky-500/15 px-4 py-2 text-sm font-semibold text-sky-200 ring-1 ring-inset ring-sky-400/30 hover:bg-sky-500/25 hover:text-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-400/40 whitespace-nowrap shrink-0'
-      )); ?>
+      <?php echo CHtml::link('Подписаться', array_merge(['/subscription/create'], $subscriptionParams), [
+          'class'=>$subscribeBtnClass
+      ]); ?>
     <?php else: ?>
-      <?php echo CHtml::link('Редактировать', array('/book/update', 'id'=>$book->id), array(
-          'class'=>'js-book-edit inline-flex items-center justify-center rounded-lg bg-slate-200 px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-white transition whitespace-nowrap shrink-0',
+      <?php echo CHtml::link('Редактировать', ['/book/update', 'id'=>$book->id], [
+          'class'=>$editBtnClass,
           'data-book-id' => $book->id,
-      )); ?>
-      <?php echo CHtml::link('Удалить', array('/book/delete', 'id'=>$book->id), array(
-          'class'=>'js-book-delete inline-flex items-center justify-center rounded-lg bg-rose-500 px-3 py-2 text-sm font-semibold text-white hover:bg-rose-400 transition whitespace-nowrap shrink-0',
+      ]); ?>
+      <?php echo CHtml::link('Удалить', ['/book/delete', 'id'=>$book->id], [
+          'class'=>$deleteBtnClass,
           'data-book-id' => $book->id,
-      )); ?>
+      ]); ?>
     <?php endif; ?>
   </td>
 </tr>

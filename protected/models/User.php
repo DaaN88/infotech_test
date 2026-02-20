@@ -19,11 +19,11 @@ class User extends CActiveRecord
 
     public function rules()
     {
-        return array(
-            array('username, password_hash, role, created_at, updated_at', 'required'),
-            array('username', 'length', 'max' => 64),
-            array('password_hash', 'length', 'max' => 255),
-            array('role', 'length', 'max' => 32),
-        );
+        return [
+            ['username, password_hash, role, created_at, updated_at', 'required'],
+            ['username', 'length', 'max' => 64],
+            ['password_hash', 'length', 'max' => 255],
+            ['role', 'length', 'max' => 32],
+        ];
     }
 }

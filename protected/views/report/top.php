@@ -7,7 +7,14 @@ declare(strict_types=1);
 /* @var $years array */
 
 $this->pageTitle = 'ТОП-10 авторов';
-$this->breadcrumbs = array('Отчет', 'ТОП-10');
+$this->breadcrumbs = ['Отчет', 'ТОП-10'];
+
+$selectClass = 'rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 '
+    . 'focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40';
+$cardClass = 'rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)] '
+    . 'backdrop-blur';
+$theadClass = 'bg-slate-950/40 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b '
+    . 'border-white/10';
 ?>
 
 <section class="space-y-4 rounded-xl border border-white/5 bg-slate-900/80 p-4 sm:p-5">
@@ -22,7 +29,7 @@ $this->breadcrumbs = array('Отчет', 'ТОП-10');
       <form id="top-year-form" method="get" action="<?php echo $action; ?>" class="flex items-center gap-2">
         <input type="hidden" name="r" value="report/top">
         <label for="year" class="text-sm text-slate-300">Год</label>
-        <select id="year" name="year" class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400/40">
+        <select id="year" name="year" class="<?php echo $selectClass; ?>">
           <?php foreach ($years as $y): ?>
             <option value="<?php echo (int) $y; ?>" <?php echo ((int)$y === (int)$year) ? 'selected' : ''; ?>>
               <?php echo CHtml::encode($y); ?>
@@ -33,9 +40,9 @@ $this->breadcrumbs = array('Отчет', 'ТОП-10');
     <?php endif; ?>
   </div>
 
-  <div class="rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
+  <div class="<?php echo $cardClass; ?>">
     <table class="w-full table-auto text-left text-sm">
-      <thead class="bg-slate-950/40 text-[11px] font-semibold uppercase tracking-wide text-slate-300 border-b border-white/10">
+      <thead class="<?php echo $theadClass; ?>">
         <tr>
           <th class="px-5 py-3 w-12">#</th>
           <th class="px-5 py-3">Автор</th>

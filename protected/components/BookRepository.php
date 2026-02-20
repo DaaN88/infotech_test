@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class BookRepository extends CApplicationComponent
 {
-    public function create(array $bookData, array $authorIds, ?CUploadedFile $cover): Book
+    public function create( $bookData,  $authorIds, ?CUploadedFile $cover): Book
     {
         $authorIds = $this->normalizeAuthors($authorIds);
         $uploadedCover = null;
@@ -52,7 +52,7 @@ class BookRepository extends CApplicationComponent
         }
     }
 
-    public function update(int $id, array $bookData, array $authorIds, ?CUploadedFile $cover): Book
+    public function update(int $id,  $bookData,  $authorIds, ?CUploadedFile $cover): Book
     {
         /** @var Book|null $book */
         $book = Book::model()->findByPk($id);
@@ -170,8 +170,23 @@ class BookRepository extends CApplicationComponent
 
     protected function storeCover(CUploadedFile $file): array
     {
-        $ext = $file->getExtensionName();
-        $safeName = uniqid('cover_', true) . ($ext ? '.' . $ext : '');
+        $maxSize = 5 * 1024 * 1024; // 5 MB
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+        $ext = strtolower($file->getExtensionName());
+        if (! in_array($ext, $allowed, true)) {
+            throw new ValidationException(Yii::t('app', 'book.cover.save_error'), [
+                'cover' => [Yii::t('app', 'book.cover.save_error')],
+            ]);
+        }
+
+        if ($file->getSize() <= 0 || $file->getSize() > $maxSize) {
+            throw new ValidationException(Yii::t('app', 'book.cover.save_error'), [
+                'cover' => [Yii::t('app', 'book.cover.save_error')],
+            ]);
+        }
+
+        $safeName = uniqid('cover_', true) . '.' . $ext;
 
         $targetDir = Yii::getPathOfAlias('webroot') . '/images';
         if (! is_dir($targetDir)) {
@@ -197,7 +212,7 @@ class BookRepository extends CApplicationComponent
         $photo->created_at = date('Y-m-d H:i:s');
         $photo->save();
 
-        $currentPhotos = $book->photos ?: array();
+        $currentPhotos = $book->photos ?: [];
         $currentPhotos[] = $photo;
         $book->photos = $currentPhotos;
     }

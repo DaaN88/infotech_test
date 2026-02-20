@@ -2,29 +2,29 @@
 
 return CMap::mergeArray(
 	require(dirname(__FILE__).'/main.php'),
-	array(
-		'import'=>array(
+	[
+		'import'=>[
 			'application.tests.components.*',
 			'application.tests.helpers.*',
-		),
-		'components'=>array(
-			'fixture'=>array(
+		],
+		'components'=>[
+			'fixture'=>[
 				'class'=>'system.test.CDbFixtureManager',
 				'basePath'=>dirname(__FILE__).'/../tests/fixtures',
-			),
-			'request'=>array(
+			],
+			'request'=>[
 				'class'=>'TestHttpRequest',
 				'hostInfo'=>'http://localhost',
 				'baseUrl'=>'/',
 				'scriptUrl'=>'/index-test.php',
-			),
-			'assetManager'=>array(
+			],
+			'assetManager'=>[
 				'basePath'=>dirname(__FILE__).'/../../assets',
 				'baseUrl'=>'/assets',
-			),
-            'queue'=>array(
+			],
+            'queue'=>[
                 'driver'=>'sync',
-            ),
-		),
-	)
+            ],
+		],
+	]
 );

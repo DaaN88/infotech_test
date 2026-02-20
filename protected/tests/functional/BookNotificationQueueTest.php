@@ -8,7 +8,7 @@ class BookNotificationQueueTest extends FunctionalTestCase
     protected function setUp()
     {
         parent::setUp();
-        DummyNotifierQueue::$sent = array();
+        DummyNotifierQueue::$sent = [];
         Yii::app()->setComponent('notifier', new DummyNotifierQueue());
         Yii::app()->setComponent('notificationService', new NotificationService());
 
@@ -31,14 +31,14 @@ class BookNotificationQueueTest extends FunctionalTestCase
 
         // создаём книгу с автором 1
         $svc = Yii::app()->bookRepository;
-        $attrs = array(
+        $attrs = [
             'title' => 'Queue Test Book',
             'year' => 2026,
             'isbn' => '978-9-99999-777-7',
             'description' => 'queue functional test',
-        );
+        ];
 
-        $book = $svc->create($attrs, array(1), null);
+        $book = $svc->create($attrs, [1], null);
 
         // sync-драйвер требует явного запуска run() для обработки сообщений в тестах
         Yii::app()->queue->run();

@@ -9,19 +9,19 @@ require_once dirname(__FILE__) . '/../components/Env.php';
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
-return array(
+return [
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Каталог книг',
     'sourceLanguage'=>'en',
     'language'=>'ru',
 	'defaultController'=>'auth',
-	'homeUrl'=>array('/book/index'),
+	'homeUrl'=>['/book/index'],
 
 	// preloading 'log' component
-	'preload'=>array('log'),
+	'preload'=>['log'],
 
 	// autoloading model and component classes
-    'import'=>array(
+    'import'=>[
         'application.models.*',
         'application.components.*',
         'application.components.notifications.*',
@@ -29,9 +29,9 @@ return array(
         'application.components.queue.SyncInMemoryQueue',
         'application.components.jobs.*',
         'application.components.exceptions.*',
-    ),
+    ],
 
-	'modules'=>array(
+	'modules'=>[
 		// uncomment the following to enable the Gii tool
 		/*
 		'gii'=>array(
@@ -41,22 +41,22 @@ return array(
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
 		*/
-	),
+	],
 
 	// application components
-	'components'=>array(
+	'components'=>[
 
-		'user'=>array(
+		'user'=>[
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
-			'loginUrl'=>array('/auth/login'),
-		),
+			'loginUrl'=>['/auth/login'],
+		],
 
-		'authManager'=>array(
+		'authManager'=>[
 			'class'=>'CDbAuthManager',
 			'connectionID'=>'db',
-			'defaultRoles'=>array('guest'),
-		),
+			'defaultRoles'=>['guest'],
+		],
 
 		// uncomment the following to enable URLs in path-format
 		/*
@@ -73,68 +73,73 @@ return array(
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),
 
-		'errorHandler'=>array(
+		'errorHandler'=>[
 			// use 'site/error' action to display errors
 			'errorAction'=>YII_DEBUG ? null : 'site/error',
-		),
+		],
 
-        'log'=>array(
+        'log'=>[
             'class'=>'CLogRouter',
-            'routes'=>array(
-                array(
+            'routes'=>[
+                [
                     'class'=>'CFileLogRoute',
                     'levels'=>'error, warning',
-                ),
-                array(
+                ],
+                [
                     'class'=>'CFileLogRoute',
                     'levels'=>'info, error, warning',
                     'categories'=>'sms,queue',
                     'logFile'=>'app-info.log',
-                ),
+                ],
                 // uncomment the following to show log messages on web pages
                 /*
                 array(
                     'class'=>'CWebLogRoute',
                 ),
 				*/
-			),
-		),
+			],
+		],
 
 		// Отчёты/статистика
-        'reportService'=>array(
+        'reportService'=>[
             'class'=>'TopAuthorsReportService',
-        ),
+        ],
 
         // Уведомления/очередь
-        'notificationFactory'=>array(
+        'notificationFactory'=>[
             'class'=>'NotificationFactory',
             'smsApiKey'=>Env::get('SMS_API_KEY', 'XXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZXXXXXXXXXXXXYYYYYYYYYYYYZZZZZZZZ'),
-        ),
-        'notifier'=>array(
+        ],
+        'notifier'=>[
             'class'=>'Notifier',
-        ),
-        'notificationService'=>array(
+        ],
+        'notificationService'=>[
             'class'=>'NotificationService',
-        ),
-        'queue'=>array(
+        ],
+        'queue'=>[
             'class'=>'QueueComponent',
             'driver'=>Env::get('QUEUE_DRIVER', 'redis'),
             'redisHost'=>Env::get('REDIS_HOST', 'redis'),
             'redisPort'=> (int)(Env::get('REDIS_PORT', 6379)),
-        ),
-        'bookRepository'=>array(
+        ],
+        'bookRepository'=>[
             'class'=>'BookRepository',
-        ),
-        'transactionManager'=>array(
+        ],
+        'transactionManager'=>[
             'class'=>'ModelTransactionManager',
-        ),
+        ],
 
-    ),
+        // Cache is required for rate limiting.
+        'cache'=>[
+            'class'=>'CFileCache',
+        ],
+
+    ],
 
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
-	'params'=>array(
+	'params'=>[
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-	),
-);
+	],
+];

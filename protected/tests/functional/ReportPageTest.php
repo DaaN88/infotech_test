@@ -9,7 +9,7 @@ class ReportPageTest extends FunctionalTestCase
     public function testTopReportLoadsForGuest()
     {
         $response2024 = $this->get('report/top');
-        $response2023 = $this->get('report/top', array('year' => 2023));
+        $response2023 = $this->get('report/top', ['year' => 2023]);
 
         $this->assertContains('ТОП-10 авторов', $response2024['content']);
         $this->assertContains('Год', $response2024['content']);
@@ -29,8 +29,8 @@ class ReportPageTest extends FunctionalTestCase
      */
     public function testAuthorsDifferBetweenYears()
     {
-        $response2024 = $this->get('report/top', array('year' => 2024));
-        $response2023 = $this->get('report/top', array('year' => 2023));
+        $response2024 = $this->get('report/top', ['year' => 2024]);
+        $response2023 = $this->get('report/top', ['year' => 2023]);
 
         $this->assertNotEquals(
             $response2024['content'],

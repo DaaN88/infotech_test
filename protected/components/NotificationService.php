@@ -31,9 +31,17 @@ class NotificationService extends CApplicationComponent
 
         $category = 'queue';
         if ($pushed === 0) {
-            Yii::log(sprintf('enqueueNewBook: подписчиков не найдено для книги #%d', $book->id), CLogger::LEVEL_INFO, $category);
+            Yii::log(
+                sprintf('enqueueNewBook: подписчиков не найдено для книги #%d', $book->id),
+                CLogger::LEVEL_INFO,
+                $category
+            );
         } else {
-            Yii::log(sprintf('enqueueNewBook: поставлено %d уведомлений для книги #%d', $pushed, $book->id), CLogger::LEVEL_INFO, $category);
+            Yii::log(
+                sprintf('enqueueNewBook: поставлено %d уведомлений для книги #%d', $pushed, $book->id),
+                CLogger::LEVEL_INFO,
+                $category
+            );
         }
 
         // принудительно сбрасываем лог, чтобы записи сразу попадали в файл в CLI/долгоживущих процессах

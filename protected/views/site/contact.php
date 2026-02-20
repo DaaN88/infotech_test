@@ -4,9 +4,9 @@
 /* @var $form CActiveForm */
 
 $this->pageTitle=Yii::app()->name . ' - Contact Us';
-$this->breadcrumbs=array(
+$this->breadcrumbs=[
 	'Contact',
-);
+];
 ?>
 
 <h1>Contact Us</h1>
@@ -25,13 +25,13 @@ If you have business inquiries or other questions, please fill out the following
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form=$this->beginWidget('CActiveForm', [
 	'id'=>'contact-form',
 	'enableClientValidation'=>true,
-	'clientOptions'=>array(
+	'clientOptions'=>[
 		'validateOnSubmit'=>true,
-	),
-)); ?>
+	],
+]); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
@@ -51,13 +51,13 @@ If you have business inquiries or other questions, please fill out the following
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'subject'); ?>
-		<?php echo $form->textField($model,'subject',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo $form->textField($model,'subject',['size'=>60,'maxlength'=>128]); ?>
 		<?php echo $form->error($model,'subject'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'body'); ?>
-		<?php echo $form->textArea($model,'body',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->textArea($model,'body',['rows'=>6, 'cols'=>50]); ?>
 		<?php echo $form->error($model,'body'); ?>
 	</div>
 

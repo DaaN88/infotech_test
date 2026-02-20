@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 abstract class FunctionalTestCase extends CDbTestCase
 {
-    protected $fixtures = array(
+    protected $fixtures = [
         'users' => 'User',
         'authors' => 'Author',
         'books' => 'Book',
         'book_author' => ':book_author',
         'book_photos' => ':book_photos',
         'subscriptions' => 'Subscription',
-    );
+    ];
 
     protected function setUp()
     {
         parent::setUp();
         if (!isset($_SESSION)) {
-            $_SESSION = array();
+            $_SESSION = [];
         }
         Yii::app()->session->open();
         Yii::app()->user->logout(false);
@@ -39,14 +39,14 @@ abstract class FunctionalTestCase extends CDbTestCase
         return Yii::app()->getRequest();
     }
 
-    protected function get(string $route, array $query = array())
+    protected function get(string $route, array $query = [])
     {
-        return $this->dispatch($route, 'GET', $query, array());
+        return $this->dispatch($route, 'GET', $query, []);
     }
 
-    protected function post(string $route, array $data = array())
+    protected function post(string $route, array $data = [])
     {
-        return $this->dispatch($route, 'POST', array(), $data);
+        return $this->dispatch($route, 'POST', [], $data);
     }
 
     protected function dispatch(string $route, string $method, array $query, array $post): array
@@ -65,18 +65,18 @@ abstract class FunctionalTestCase extends CDbTestCase
 
         $request = $this->getRequest();
 
-        return array(
+        return [
             'content' => $content,
             'redirectUrl' => $request->lastRedirectUrl,
             'statusCode' => $request->lastRedirectCode,
-        );
+        ];
     }
 
     protected function resetRequestState(
         string $method = 'GET',
         string $route = '/',
-        array $query = array(),
-        array $post = array()
+        array $query = [],
+        array $post = []
     ): void {
         $request = $this->getRequest();
         $request->clearRedirect();

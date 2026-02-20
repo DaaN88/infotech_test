@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 $now = '2024-02-15 10:00:00';
 
-return array(
-    'developers_path' => array(
+return [
+    'developers_path' => [
         'id' => 1,
         'title' => 'Путь разработчика',
         'year' => 2024,
@@ -13,8 +13,8 @@ return array(
         'cover_path' => null,
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'systems_architecture' => array(
+    ],
+    'systems_architecture' => [
         'id' => 2,
         'title' => 'Архитектура систем',
         'year' => 2023,
@@ -23,8 +23,8 @@ return array(
         'cover_path' => null,
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'devops_practice' => array(
+    ],
+    'devops_practice' => [
         'id' => 3,
         'title' => 'Практика DevOps',
         'year' => 2024,
@@ -33,8 +33,8 @@ return array(
         'cover_path' => 'cover_03.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'microservices' => array(
+    ],
+    'microservices' => [
         'id' => 4,
         'title' => 'Микросервисы на практике',
         'year' => 2024,
@@ -43,8 +43,8 @@ return array(
         'cover_path' => 'cover_04.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'data_engineering' => array(
+    ],
+    'data_engineering' => [
         'id' => 5,
         'title' => 'Data Engineering',
         'year' => 2022,
@@ -53,8 +53,8 @@ return array(
         'cover_path' => 'cover_05.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'ai_applied' => array(
+    ],
+    'ai_applied' => [
         'id' => 6,
         'title' => 'Искусственный интеллект',
         'year' => 2024,
@@ -63,8 +63,8 @@ return array(
         'cover_path' => 'cover_06.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'cloud_native' => array(
+    ],
+    'cloud_native' => [
         'id' => 7,
         'title' => 'Cloud Native Patterns',
         'year' => 2024,
@@ -73,8 +73,8 @@ return array(
         'cover_path' => 'cover_07.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'app_security' => array(
+    ],
+    'app_security' => [
         'id' => 8,
         'title' => 'Безопасность приложений',
         'year' => 2024,
@@ -83,8 +83,8 @@ return array(
         'cover_path' => 'cover_08.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'frontend_modern' => array(
+    ],
+    'frontend_modern' => [
         'id' => 9,
         'title' => 'Современный фронтенд',
         'year' => 2024,
@@ -93,8 +93,8 @@ return array(
         'cover_path' => 'cover_09.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'qa_quality' => array(
+    ],
+    'qa_quality' => [
         'id' => 10,
         'title' => 'Тестирование и качество',
         'year' => 2023,
@@ -103,8 +103,8 @@ return array(
         'cover_path' => 'cover_10.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'product_management' => array(
+    ],
+    'product_management' => [
         'id' => 11,
         'title' => 'Менеджмент продукта',
         'year' => 2024,
@@ -113,8 +113,8 @@ return array(
         'cover_path' => 'cover_11.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'ml101' => array(
+    ],
+    'ml101' => [
         'id' => 12,
         'title' => 'Machine Learning 101',
         'year' => 2024,
@@ -123,8 +123,8 @@ return array(
         'cover_path' => 'cover_12.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'deep_learning' => array(
+    ],
+    'deep_learning' => [
         'id' => 13,
         'title' => 'Глубокое обучение',
         'year' => 2024,
@@ -133,8 +133,8 @@ return array(
         'cover_path' => 'cover_13.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'rust_intro' => array(
+    ],
+    'rust_intro' => [
         'id' => 14,
         'title' => 'Rust для начинающих',
         'year' => 2023,
@@ -143,8 +143,8 @@ return array(
         'cover_path' => 'cover_14.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'go_highload' => array(
+    ],
+    'go_highload' => [
         'id' => 15,
         'title' => 'Go: высоконагруженные сервисы',
         'year' => 2024,
@@ -153,8 +153,8 @@ return array(
         'cover_path' => 'cover_15.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'postgres_prod' => array(
+    ],
+    'postgres_prod' => [
         'id' => 16,
         'title' => 'PostgreSQL в продакшене',
         'year' => 2024,
@@ -163,8 +163,8 @@ return array(
         'cover_path' => 'cover_16.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'css_secrets' => array(
+    ],
+    'css_secrets' => [
         'id' => 17,
         'title' => 'Секреты CSS',
         'year' => 2023,
@@ -173,8 +173,8 @@ return array(
         'cover_path' => 'cover_17.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'effective_leader' => array(
+    ],
+    'effective_leader' => [
         'id' => 18,
         'title' => 'Эффективный руководитель',
         'year' => 2024,
@@ -183,8 +183,8 @@ return array(
         'cover_path' => 'cover_18.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'product_analytics' => array(
+    ],
+    'product_analytics' => [
         'id' => 19,
         'title' => 'Продуктовая аналитика',
         'year' => 2024,
@@ -193,8 +193,8 @@ return array(
         'cover_path' => 'cover_19.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-    'agile_practicum' => array(
+    ],
+    'agile_practicum' => [
         'id' => 20,
         'title' => 'Agile практикум',
         'year' => 2022,
@@ -203,5 +203,5 @@ return array(
         'cover_path' => 'cover_20.png',
         'created_at' => $now,
         'updated_at' => $now,
-    ),
-);
+    ],
+];

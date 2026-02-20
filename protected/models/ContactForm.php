@@ -13,19 +13,25 @@ class ContactForm extends CFormModel
 	public $body;
 	public $verifyCode;
 
+    private function stripNewlines(string $value): string
+    {
+        return str_replace(["\r", "\n"], '', $value);
+    }
+
 	/**
 	 * Declares the validation rules.
 	 */
 	public function rules()
 	{
-		return array(
+		return [
+            ['name, email, subject', 'filter', 'filter' => [$this, 'stripNewlines']],
 			// name, email, subject and body are required
-			array('name, email, subject, body', 'required'),
+			['name, email, subject, body', 'required'],
 			// email has to be a valid email address
-			array('email', 'email'),
+			['email', 'email'],
 			// verifyCode needs to be entered correctly
-			array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
-		);
+			['verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()],
+		];
 	}
 
 	/**
@@ -35,8 +41,8 @@ class ContactForm extends CFormModel
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return [
 			'verifyCode'=>Yii::t('app', 'contact.label.verifyCode'),
-		);
+		];
 	}
 }

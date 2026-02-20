@@ -4,9 +4,9 @@
 /* @var $form CActiveForm  */
 
 $this->pageTitle=Yii::app()->name . ' - Login';
-$this->breadcrumbs=array(
+$this->breadcrumbs=[
 	'Login',
-);
+];
 ?>
 
 <h1>Login</h1>
@@ -14,13 +14,13 @@ $this->breadcrumbs=array(
 <p>Please fill out the following form with your login credentials:</p>
 
 <div class="form">
-<?php $form=$this->beginWidget('CActiveForm', array(
+<?php $form=$this->beginWidget('CActiveForm', [
 	'id'=>'login-form',
 	'enableClientValidation'=>true,
-	'clientOptions'=>array(
+	'clientOptions'=>[
 		'validateOnSubmit'=>true,
-	),
-)); ?>
+	],
+]); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 

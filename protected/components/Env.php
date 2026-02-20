@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 class Env
 {
-    private static array $cache = array();
+    private static  $cache = [];
     private static ?int $mtime = null;
 
     public static function get(string $key, $default = null)
@@ -26,7 +26,7 @@ class Env
     {
         $path = dirname(__DIR__, 2) . '/.env';
         if (!is_file($path)) {
-            return array();
+            return [];
         }
 
         $mtime = filemtime($path) ?: 0;
@@ -35,7 +35,7 @@ class Env
         }
 
         $content = file_get_contents($path);
-        $parsed = array();
+        $parsed = [];
 
         foreach (preg_split('/\\r?\\n/', (string) $content) as $line) {
             $line = trim($line);

@@ -8,13 +8,13 @@ class m260220_120000_create_book_photos_table extends CDbMigration
     {
         $options = 'ENGINE=InnoDB DEFAULT CHARSET=utf8mb4';
 
-        $this->createTable('book_photos', array(
+        $this->createTable('book_photos', [
             'id'           => 'pk',
             'book_id'      => 'int(11) NOT NULL',
             'file_name'    => 'varchar(255) NOT NULL', // техническое имя файла на диске
             'display_name' => 'varchar(255) NOT NULL', // человеко-понятное название
             'created_at'   => 'datetime NOT NULL',
-        ), $options);
+        ], $options);
 
         $this->createIndex('idx_book_photos_book', 'book_photos', 'book_id');
 
